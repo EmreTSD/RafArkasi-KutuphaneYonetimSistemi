@@ -1,0 +1,4 @@
+/* Üyeler Sayfası Stilleri */
+.uyeler-ust { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.uyeler-arama-kutusu { display: flex; gap: 12px; flex: 1; max-width: 500px; }
+.uyeler-arama-kutusu .form-girdi { flex: 1; }

@@ -1,0 +1,27 @@
+/* ============================================
+   Giriş & Kayıt Sayfası Stilleri
+   ============================================ */
+
+.yetkilendirme-sayfa {
+  display: flex; justify-content: center; align-items: center;
+  min-height: calc(100vh - 200px); padding: 40px 20px;
+}
+
+.yetkilendirme-kart {
+  width: 100%; max-width: 440px;
+  background: var(--renk-kart); border: 1px solid var(--renk-kenarlik);
+  border-radius: var(--yuvarlaklık-buyuk); padding: 40px;
+  animation: yukariKaydir 0.5s ease;
+}
+
+.yetkilendirme-ikon { text-align: center; font-size: 2.5rem; margin-bottom: 12px; }
+.yetkilendirme-baslik { text-align: center; font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; }
+.yetkilendirme-aciklama { text-align: center; color: var(--renk-metin-3); font-size: 0.9rem; margin-bottom: 32px; }
+.yetkilendirme-form { display: flex; flex-direction: column; }
+.yetkilendirme-form .btn { width: 100%; padding: 14px; font-size: 1rem; margin-top: 8px; }
+
+.yetkilendirme-alt { text-align: center; margin-top: 24px; font-size: 0.9rem; color: var(--renk-metin-3); }
+.yetkilendirme-alt a { color: var(--renk-vurgu); font-weight: 600; }
+.yetkilendirme-alt a:hover { text-decoration: underline; }
+
+@media (max-width: 480px) { .yetkilendirme-kart { padding: 28px 20px; } }

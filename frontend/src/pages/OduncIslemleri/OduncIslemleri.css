@@ -1,0 +1,4 @@
+/* Ödünç İşlemleri Stilleri */
+.odunc-ust { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.odunc-filtreler { display: flex; gap: 12px; flex-wrap: wrap; }
+.odunc-filtreler .form-girdi { min-width: 160px; }

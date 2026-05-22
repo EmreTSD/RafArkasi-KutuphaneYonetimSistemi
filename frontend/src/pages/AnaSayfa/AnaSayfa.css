@@ -1,0 +1,75 @@
+/* ============================================
+   Ana Sayfa Stilleri
+   ============================================ */
+
+.anasayfa-hero {
+  text-align: center;
+  padding: 80px 20px 60px;
+}
+
+.hero-ikon { font-size: 4rem; margin-bottom: 20px; display: inline-block; animation: yukariKaydir 0.8s ease; }
+
+.hero-baslik {
+  font-size: 3rem; font-weight: 800; margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--renk-metin), var(--renk-vurgu), var(--renk-mavi-parlak));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  animation: yukariKaydir 0.8s ease 0.1s both;
+}
+
+.hero-aciklama {
+  font-size: 1.15rem; color: var(--renk-metin-2);
+  max-width: 600px; margin: 0 auto 36px; line-height: 1.8;
+  animation: yukariKaydir 0.8s ease 0.2s both;
+}
+
+.hero-butonlar {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  animation: yukariKaydir 0.8s ease 0.3s both;
+}
+
+.istatistik-bolum { padding: 40px 0; }
+
+.istatistik-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+.istatistik-kart {
+  text-align: center; padding: 32px 20px;
+  background: var(--renk-kart); border: 1px solid var(--renk-kenarlik);
+  border-radius: var(--yuvarlaklık-buyuk); transition: var(--gecis);
+  animation: yukariKaydir 0.6s ease both;
+}
+.istatistik-kart:nth-child(1) { animation-delay: 0.1s; }
+.istatistik-kart:nth-child(2) { animation-delay: 0.2s; }
+.istatistik-kart:nth-child(3) { animation-delay: 0.3s; }
+.istatistik-kart:nth-child(4) { animation-delay: 0.4s; }
+
+.istatistik-kart:hover { transform: translateY(-4px); box-shadow: var(--golge-vurgu); border-color: rgba(226, 183, 20, 0.2); }
+.istatistik-ikon { font-size: 2.2rem; margin-bottom: 12px; }
+.istatistik-deger { font-size: 2rem; font-weight: 800; color: var(--renk-vurgu); margin-bottom: 4px; }
+.istatistik-etiket { font-size: 0.85rem; color: var(--renk-metin-3); font-weight: 500; }
+
+.ozellikler-bolum { padding: 60px 0 40px; }
+.ozellikler-baslik { text-align: center; font-size: 1.8rem; font-weight: 700; margin-bottom: 40px; }
+.ozellikler-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+.ozellik-kart {
+  padding: 32px; background: var(--renk-kart);
+  border: 1px solid var(--renk-kenarlik); border-radius: var(--yuvarlaklık-buyuk);
+  transition: var(--gecis); text-align: center;
+}
+.ozellik-kart:hover { transform: translateY(-4px); border-color: var(--renk-kenarlik-hover); box-shadow: var(--golge-orta); }
+.ozellik-ikon { font-size: 2.5rem; margin-bottom: 16px; }
+.ozellik-baslik { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+.ozellik-aciklama { font-size: 0.9rem; color: var(--renk-metin-3); line-height: 1.6; }
+
+@media (max-width: 1024px) {
+  .istatistik-grid { grid-template-columns: repeat(2, 1fr); }
+  .ozellikler-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .hero-baslik { font-size: 2rem; }
+  .anasayfa-hero { padding: 50px 16px 40px; }
+  .ozellikler-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .istatistik-grid { grid-template-columns: 1fr; }
+}

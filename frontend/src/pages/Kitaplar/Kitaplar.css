@@ -1,0 +1,51 @@
+/* ============================================
+   Kitaplar Sayfası Stilleri
+   ============================================ */
+
+.kitaplar-ust { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
+.kitaplar-arama-kutusu { display: flex; gap: 12px; flex-wrap: wrap; flex: 1; max-width: 600px; }
+.kitaplar-arama-kutusu .form-girdi { flex: 1; min-width: 200px; }
+
+.kitaplar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+
+.kitap-kart {
+  background: var(--renk-kart); border: 1px solid var(--renk-kenarlik);
+  border-radius: var(--yuvarlaklık-buyuk); padding: 24px;
+  transition: var(--gecis); display: flex; flex-direction: column;
+  animation: yukariKaydir 0.5s ease both;
+}
+.kitap-kart:hover { transform: translateY(-4px); border-color: rgba(226, 183, 20, 0.2); box-shadow: var(--golge-vurgu); }
+.kitap-kart-ust { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+
+.kitap-kategori {
+  display: inline-block; padding: 3px 10px; font-size: 0.7rem; font-weight: 600;
+  color: var(--renk-mavi-parlak); background: rgba(59, 130, 246, 0.1);
+  border-radius: var(--yuvarlaklık-tam);
+}
+
+.kitap-stok { font-size: 0.75rem; font-weight: 600; }
+.kitap-stok.mevcut { color: var(--renk-basari); }
+.kitap-stok.tukenmis { color: var(--renk-hata); }
+.kitap-baslik { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; line-height: 1.4; }
+.kitap-yazar { font-size: 0.85rem; color: var(--renk-vurgu); margin-bottom: 12px; font-weight: 500; }
+.kitap-detaylar { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; flex: 1; }
+.kitap-detay { display: flex; justify-content: space-between; font-size: 0.8rem; }
+.kitap-detay-etiket { color: var(--renk-metin-3); }
+.kitap-detay-deger { color: var(--renk-metin-2); font-weight: 500; }
+.kitap-kart-butonlar { display: flex; gap: 8px; margin-top: auto; }
+.kitap-kart-butonlar .btn { flex: 1; padding: 8px 12px; font-size: 0.8rem; }
+
+.genelSayi { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 32px; padding: 16px 0; }
+
+.genelSayi-btn {
+  padding: 8px 14px; font-size: 0.85rem; font-weight: 600;
+  color: var(--renk-metin-2); background: var(--renk-kart);
+  border: 1px solid var(--renk-kenarlik); border-radius: var(--yuvarlaklık-orta);
+  cursor: pointer; transition: var(--gecis);
+}
+.genelSayi-btn:hover:not(:disabled) { background: var(--renk-kart-hover); }
+.genelSayi-btn.aktif { background: var(--renk-vurgu); color: #0a0a14; border-color: var(--renk-vurgu); }
+.genelSayi-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.genelSayi-bilgi { font-size: 0.85rem; color: var(--renk-metin-3); margin-left: 12px; }
+
+@media (max-width: 768px) { .kitaplar-ust { flex-direction: column; } .kitaplar-arama-kutusu { max-width: 100%; } }

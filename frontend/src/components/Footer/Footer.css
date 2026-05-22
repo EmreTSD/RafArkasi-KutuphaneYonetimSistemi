@@ -1,0 +1,42 @@
+/* ============================================
+   Footer Bileşeni Stilleri
+   ============================================ */
+
+.footer {
+  background: var(--renk-arkaplan-2);
+  border-top: 1px solid var(--renk-kenarlik);
+  padding: 40px 24px 20px;
+  margin-top: auto;
+}
+
+.footer-icerik {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+}
+
+.footer-bolum-baslik {
+  font-size: 0.85rem; font-weight: 700;
+  color: var(--renk-vurgu);
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.footer-aciklama { color: var(--renk-metin-3); font-size: 0.85rem; line-height: 1.7; }
+
+.footer-linkler { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+.footer-link { color: var(--renk-metin-3); font-size: 0.85rem; text-decoration: none; transition: var(--gecis); }
+.footer-link:hover { color: var(--renk-vurgu); }
+
+.footer-alt {
+  max-width: 1200px; margin: 24px auto 0;
+  padding-top: 20px; border-top: 1px solid var(--renk-kenarlik);
+  text-align: center; color: var(--renk-metin-3); font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .footer-icerik { grid-template-columns: 1fr; gap: 30px; }
+}

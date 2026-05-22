@@ -1,0 +1,71 @@
+# =============================================
+# .gitignore - Raf Arkası (Kütüphane Yönetim Sistemi)
+# =============================================
+
+# ---- Bağımlılıklar ----
+node_modules/
+*/node_modules/
+
+# ---- Ortam Değişkenleri ----
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.test
+.env*.local
+
+# ---- Build Çıktıları ----
+dist/
+build/
+.output/
+.nuxt/
+.next/
+
+# ---- IDE / Editör Dosyaları ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+
+# ---- OS Dosyaları ----
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---- Log Dosyaları ----
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ---- Test Çıktıları ----
+coverage/
+.nyc_output/
+
+# ---- Geçici Dosyalar ----
+*.tmp
+*.temp
+.cache/
+.parcel-cache/
+
+# ---- Package Lock (isteğe bağlı - projede kalacak) ----
+# package-lock.json
+
+# ---- Gemini / AI araç dosyaları ----
+.gemini/
+
+# ---- Proje Dokümanları (kişisel notlar) ----
+README.md
+genel.md
