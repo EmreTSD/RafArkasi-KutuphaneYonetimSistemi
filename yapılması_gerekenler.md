@@ -4,9 +4,9 @@ Yapılması Gerekenler - Raf Arkası Kütüphane Yönetim Sistemi
 1. ✅ GitHub'a yollandı (git init + commit + push yapıldı)
    → Repo: https://github.com/EmreTSD/RafArkasi-KutuphaneYonetimSistemi
 
-2. ❌ Backend dosyalarını GitHub'a gönder (yeni eklenen dosyalar)
+2. ✅ Backend dosyaları GitHub'a gönderildi (18 dosya, 1411 satır)
    → git add .
-   → git commit -m "Backend tamamlandı: server, model, controller, route, middleware"
+   → git commit -m "Backend tamamlandı: server, model, controller, route, middleware eklendi"
    → git push origin main
 
 3. ❌ PostgreSQL veritabanını oluştur
