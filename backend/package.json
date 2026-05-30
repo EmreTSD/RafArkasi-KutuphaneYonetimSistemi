@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "baslat": "node server.js",
-    "gelistirme": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "sifirla": "node sifirla.js"
   },
   "keywords": ["kutuphane", "nodejs", "express", "postgresql"],
   "author": "",

@@ -40,56 +40,7 @@ git --version
 
 ---
 
-## ADIM 3: PostgreSQL Kur
-
-1. Tarayıcıyı aç → https://www.postgresql.org/download/windows/ adresine git
-2. **"Download the installer"** linkine tıkla
-3. En son sürümü indir (Windows x86-64)
-4. İndirilen .exe dosyasını çalıştır
-5. Kurulumda:
-   - ✅ PostgreSQL Server → işaretli kalsın
-   - ✅ pgAdmin 4 → işaretli kalsın
-   - ✅ Command Line Tools → işaretli kalsın
-6. **Şifre belirleme ekranı gelecek → BU ŞİFREYİ UNUTMA!**
-   (Bu şifreyi .env dosyasına yazacaksın)
-7. Port: 5432 (varsayılan, değiştirme)
-8. Kurulumu tamamla
-
-### ✔️ Doğrulama:
-```
-psql --version
-```
-Versiyon numarası geliyorsa ✅ başarılı.
-
-⚠️ Eğer "psql tanınmıyor" hatası alırsan:
-- Bilgisayarı yeniden başlat
-- Hâlâ olmuyorsa pgAdmin uygulamasını kullan (masaüstünde olmalı)
-
----
-
-## ADIM 4: Veritabanını Oluştur
-
-### Yöntem A: pgAdmin ile (kolay)
-1. Başlat menüsünden **pgAdmin 4** uygulamasını aç
-2. Sol panelde **Servers > PostgreSQL** tıkla
-3. PostgreSQL kurulumunda belirlediğin şifreyi gir
-4. **Databases** üzerine sağ tıkla → **Create > Database**
-5. Name kısmına şunu yaz: `kutuphane_db`
-6. **Save** butonuna bas
-
-### Yöntem B: Terminal ile
-```
-psql -U postgres
-```
-Şifreni gir, sonra:
-```sql
-CREATE DATABASE kutuphane_db;
-```
-Çıkmak için: `\q`
-
----
-
-## ADIM 5: Projeyi GitHub'dan İndir
+## ADIM 3: Projeyi GitHub'dan İndir
 
 İstediğin klasöre git (örneğin Masaüstü veya Downloads) ve terminalde şunu çalıştır:
 
@@ -104,7 +55,7 @@ cd RafArkasi-KutuphaneYonetimSistemi
 
 ---
 
-## ADIM 6: Backend Paketlerini Kur
+## ADIM 4: Backend Paketlerini Kur
 
 ```
 cd backend
@@ -115,7 +66,7 @@ Biraz bekle, paketler inecek. Sonunda "added X packages" yazısı gelecek.
 
 ---
 
-## ADIM 7: Frontend Paketlerini Kur
+## ADIM 5: Frontend Paketlerini Kur
 
 ```
 cd ../frontend
@@ -126,26 +77,23 @@ Yine biraz bekle. "added X packages" gelince ✅ tamam.
 
 ---
 
-## ADIM 8: .env Dosyasını Oluştur (ÇOK ÖNEMLİ!)
+## ADIM 6: .env Dosyasını Oluştur (ÇOK ÖNEMLİ!)
 
 .env dosyası güvenlik sebebiyle GitHub'a gönderilmez.
-Bu yüzden elle oluşturman gerekiyor.
+Diğer bilgisayarda online (Supabase) veritabanına bağlanacağımız için elle oluşturman gerekiyor.
 
 ### Yöntem A: Notepad ile
 1. `backend` klasörünün içine git
 2. Sağ tıkla → Yeni > Metin Belgesi
 3. İçine aşağıdakileri yapıştır:
 
-```
+```env
 PORT=5000
-VT_HOST=localhost
-VT_PORT=5432
-VT_AD=kutuphane_db
-VT_KULLANICI=postgres
-VT_SIFRE=BURAYA_POSTGRESQL_SIFRENI_YAZ
-JWT_GIZLI_ANAHTAR=kutuphane-gizli-anahtar-2024
-JWT_SURE=24h
 NODE_ENV=development
+DATABASE_URL="postgresql://postgres.atsjtozrzkacqqbxlwjh:ej3GVmKZiga_%23mC@aws-1-eu-central-1.pooler.supabase.com:6543/postgres"
+VT_SSL=true
+JWT_GIZLI_ANAHTAR="cok_guclu_bir_gizli_anahtar_raf_arkasi_2026_!#"
+JWT_SURE="7d"
 ```
 
 4. **Dosya > Farklı Kaydet** de:
@@ -160,34 +108,26 @@ notepad .env
 ```
 Yukarıdaki içeriği yapıştır ve kaydet.
 
-⚠️ **VT_SIFRE** kısmına ADIM 3'te belirlediğin PostgreSQL şifresini yaz!
-
 ---
 
-## ADIM 9: Backend'i Başlat (Test)
+## ADIM 7: Backend'i Başlat (Test)
 
 `backend` klasöründeyken:
 ```
-npm run gelistirme
+npm run dev
 ```
 
 Şunları görmelisin:
 ```
-✅ Veritabanı bağlantısı başarılı!
-✅ Veritabanı tabloları senkronize edildi!
+✅ PostgreSQL veritabanı bağlantısı başarılı!
 🚀 Sunucu http://localhost:5000 adresinde çalışıyor
 ```
-
-⚠️ Hata alırsan kontrol et:
-- PostgreSQL çalışıyor mu? (Windows Servisleri'nden kontrol et)
-- .env dosyasındaki şifre doğru mu?
-- kutuphane_db veritabanı oluşturulmuş mu?
 
 **Bu terminali KAPATMA, açık bırak!**
 
 ---
 
-## ADIM 10: Frontend'i Başlat (Test)
+## ADIM 8: Frontend'i Başlat (Test)
 
 **YENİ BİR TERMİNAL AÇ** ve `frontend` klasörüne git:
 ```
@@ -208,13 +148,7 @@ Ana sayfa açılıyorsa ✅ HER ŞEY HAZIR!
 
 ## 🎉 TAMAMLANDI!
 
-Her şey çalışıyorsa artık:
-1. http://localhost:3000/kayit adresinden bir hesap oluştur
-2. pgAdmin'den o hesabı admin yap:
-   ```sql
-   UPDATE uye SET rol = 'admin' WHERE eposta = 'senin@eposta.com';
-   ```
-3. Giriş yap ve sistemi kullan!
+Sistem şu an buluttaki veritabanına bağlı ve kullanıma hazır! Herhangi bir veritabanı kurulumu yapmanıza gerek kalmadı.
 
 ---
 
@@ -224,7 +158,6 @@ Her şey çalışıyorsa artık:
 |-------|-------|
 | `node tanınmıyor` | Bilgisayarı yeniden başlat |
 | `git tanınmıyor` | Bilgisayarı yeniden başlat |
-| `psql tanınmıyor` | pgAdmin kullan veya PATH'e ekle |
-| Veritabanı bağlantı hatası | .env şifresi doğru mu kontrol et |
+| Veritabanı bağlantı hatası | İnternet bağlantını kontrol et veya .env dosyasındaki DATABASE_URL'i doğru kopyaladığından emin ol |
 | Port 5000 kullanımda | Başka terminal'de backend açık mı kontrol et |
 | `npm install` hata veriyor | `npm cache clean --force` yap, tekrar dene |

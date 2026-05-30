@@ -130,6 +130,21 @@
 20. ✅ yapılması_gerekenler.md Oluşturuldu
     → Kalan görevler listelendi ve takip dosyası hazırlandı
 
+21. ✅ Online PostgreSQL Veritabanı (Supabase) Entegrasyonu Tamamlandı
+    → Yerel veritabanı yerine bulut tabanlı Supabase'e geçildi
+    → IPv6 zaman aşımı sorununa karşı IPv4 Connection Pooler (6543 portu) ayarlandı
+    → `.env` dosyası güncellendi (DATABASE_URL ve JWT_GIZLI_ANAHTAR eklendi)
+    → Veritabanı bağlantısı başarıyla test edildi, tablolar senkronize edildi
+    → Veritabanını tek tıkla sıfırlamak için `npm run sifirla` komutu oluşturuldu
+
+22. ✅ Test Verisi Ekleme ve Veritabanı Sıfırlama Araçları Oluşturuldu
+    → Boş veritabanına otomatik örnek veriler (Admin, Üye, Kitaplar, Ödünç kaydı) eklemek için script yazıldı.
+    → Veritabanını tamamen temizlemek için sıfırlama scripti yazıldı.
+
+23. ✅ Veritabanı SSL Konfigürasyonu Güncellendi
+    → config/veritabani.js dosyası güncellenerek SSL ayarları if-else yapısıyla (shorthand property kullanılarak) daha okunabilir hale getirildi.
+    → diger_pc_kurulum_rehberi.md dosyasına VT_SSL=false ayarı eklendi ve başlatma komutları düzeltildi.
+
 
 ======================================================================
 📊 ÖZET İSTATİSTİKLER
@@ -145,19 +160,35 @@ Backend Middleware    : 1 (JWT + Admin kontrolü)
 API Endpoint Sayısı   : 13 endpoint
 Git Commit Sayısı     : 2 commit
 GitHub Durumu         : ✅ Push edildi
+Veritabanı Sağlayıcı  : ✅ Supabase (Bulut/Online)
 
 
 ======================================================================
 ❌ HENÜZ YAPILMAYANLAR (Kalan Görevler)
 ======================================================================
 
-• PostgreSQL veritabanı oluşturma (CREATE DATABASE)
-• .env dosyasındaki şifre güncelleme
-• Backend sunucu testi (npm run gelistirme)
-• Frontend sunucu testi (npm run dev)
+• Frontend sunucu testi (npm run dev) ile arayüzün kontrol edilmesi
 • İlk admin hesabı oluşturma
 • postgresqpl.txt raporu yazma
 • Logo dosya konumu düzeltme
 • Vercel'e frontend deploy
 • Render'a backend deploy
 • Online PostgreSQL veritabanı kurulumu (Neon.tech öneriliyor)
+
+
+======================================================================
+🛠️ YARDIMCI KOMUTLARIN KULLANIMI
+======================================================================
+
+Geliştirme veya test aşamasında veritabanını kolayca yönetmek için aşağıdaki komutları kullanabilirsiniz. (Bu komutlar **backend** klasörü içinde çalıştırılmalıdır):
+
+1. **Test Verisi Ekleme (`node kayitlari_kontrol_et.js`)**
+   - Veritabanı boşsa otomatik olarak 1 Admin, 1 Normal Üye, 3 Kitap ve 1 Ödünç işlemi ekler.
+   - Arayüzü (frontend) kolayca test etmek için harikadır.
+   - Örnek admin girişi: `admin@rafarkasi.com` | Şifre: `admin123`
+   - *Kullanım:* Backend klasöründe yeni bir terminal açıp `node kayitlari_kontrol_et.js` yazın.
+
+2. **Veritabanını Tamamen Sıfırlama (`npm run sifirla`)**
+   - Veritabanındaki **TÜM verileri (kullanıcılar, kitaplar vs.) kalıcı olarak siler** ve tabloları sıfırdan tertemiz oluşturur.
+   - Test işlemleriniz bittikten sonra projeyi gerçek kullanıma hazırlamak için kullanılır.
+   - *Kullanım:* Sunucuyu (npm run dev) durdurun (Ctrl + C), ardından `npm run sifirla` yazın. İşlem bitince sunucuyu tekrar başlatabilirsiniz.

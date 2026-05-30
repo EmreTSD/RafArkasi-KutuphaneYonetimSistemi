@@ -21,7 +21,7 @@ const Kitaplar = () => {
   const [duzenlenen, duzenlenenAyarla] = useState(null);
 
   const [form, formAyarla] = useState({
-    kitapAdi: '', yazar: '', isbn: '', yayinevi: '',
+    baslik: '', yazar: '', isbn: '', yayinevi: '',
     yayinYili: '', kategori: '', sayfaSayisi: '', stokAdedi: '1', aciklama: ''
   });
 
@@ -45,7 +45,7 @@ const Kitaplar = () => {
     if (kitap) {
       duzenlenenAyarla(kitap);
       formAyarla({
-        kitapAdi: kitap.kitapAdi || '',
+        baslik: kitap.baslik || '',
         yazar: kitap.yazar || '',
         isbn: kitap.isbn || '',
         yayinevi: kitap.yayinevi || '',
@@ -58,7 +58,7 @@ const Kitaplar = () => {
     } else {
       duzenlenenAyarla(null);
       formAyarla({
-        kitapAdi: '',
+        baslik: '',
         yazar: '',
         isbn: '',
         yayinevi: '',
@@ -191,7 +191,7 @@ const Kitaplar = () => {
                     </div>
 
 
-                    <h3 className="kitap-baslik">{kitap.kitapAdi}</h3>
+                    <h3 className="kitap-baslik">{kitap.baslik}</h3>
                     <p className="kitap-yazar">✍️ {kitap.yazar}</p>
 
 
@@ -288,8 +288,8 @@ const Kitaplar = () => {
                 <input
                   type="text"
                   className="form-girdi"
-                  value={form.kitapAdi}
-                  onChange={(etkinlik) => formAyarla({ ...form, kitapAdi: etkinlik.target.value })}
+                  value={form.baslik}
+                  onChange={(etkinlik) => formAyarla({ ...form, baslik: etkinlik.target.value })}
                   required
                 />
               </div>
