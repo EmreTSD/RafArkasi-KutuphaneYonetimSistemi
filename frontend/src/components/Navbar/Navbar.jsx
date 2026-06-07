@@ -20,8 +20,8 @@ const Navbar = () => {
     <nav className="navbar" id="ana-navbar">
       <div className="navbar-icerik">
         <Link to="/" className="navbar-logo" onClick={menuKapat}>
-          <span className="navbar-logo-ikon">📚</span>
-          <span className="navbar-logo-yazi">Kütüphane</span>
+          <img src="/RafArkasıLogo.png" alt="RafArkası Logo" className="navbar-logo-resim" />
+          <span className="navbar-logo-yazi">RafArkası</span>
         </Link>
 
         <button className="navbar-hamburger" onClick={() => menuAcikAyarla(!menuAcik)} aria-label="Menü" id="hamburger-btn">
