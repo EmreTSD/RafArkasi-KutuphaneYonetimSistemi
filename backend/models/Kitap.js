@@ -81,6 +81,11 @@ const Kitap = veritabani.define('kitap', {
       min: { args: [0], msg: 'Mevcut adet negatif olamaz' }
     }
   },
+  yayinevi: {
+    type: DataTypes.STRING(100),
+    allowNull: true,
+    field: 'yayinevi'
+  },
   aciklama: {
     type: DataTypes.TEXT,
     allowNull: true
