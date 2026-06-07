@@ -35,9 +35,15 @@ const Footer = () => {
         <div>
           <h3 className="footer-bolum-baslik">İletişim</h3>
           <ul className="footer-linkler">
-            <li className="footer-link">📧 info@rafarkasi.com</li>
-            <li className="footer-link">📞 +90 555 123 4567</li>
-            <li className="footer-link">📍 İstanbul, Türkiye</li>
+            <li className="footer-link">
+              <a href="mailto:info@rafarkasi.com" style={{ color: 'inherit', textDecoration: 'none' }}>📧 info@rafarkasi.com</a>
+            </li>
+            <li className="footer-link">
+              <a href="tel:+905551234567" style={{ color: 'inherit', textDecoration: 'none' }}>📞 +90 555 123 4567</a>
+            </li>
+            <li className="footer-link">
+              <a href="https://maps.google.com/?q=İstanbul, Türkiye" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>📍 İstanbul, Türkiye</a>
+            </li>
           </ul>
         </div>
       </div>
