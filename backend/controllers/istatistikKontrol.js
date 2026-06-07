@@ -1,10 +1,10 @@
 // ============================================
 // İstatistik Kontrolcüsü
-// Ana sayfa için genel istatistikleri sağlar
+// Admin paneli ve ana sayfa için istatistik verileri
 // ============================================
 
 const { Kitap, Uye, Odunc } = require('../models');
-const { fn, col } = require('sequelize');
+const { fn, col, Op } = require('sequelize');
 
 // ---- Genel İstatistikleri Getir ----
 const istatistikleriGetir = async (istek, yanit) => {
@@ -18,10 +18,10 @@ const istatistikleriGetir = async (istek, yanit) => {
     });
     const toplamKategori = kategoriler.length;
 
-    // Mevcut (ödünçte olmayan) kitap sayısı
+    // Rafta mevcut kitap adedi (toplam stok)
     const mevcutKitap = await Kitap.sum('mevcut_adet') || 0;
 
-    // Ödünçteki kitap sayısı
+    // Şu an ödünçte olan kitap sayısı
     const oduncKitap = await Odunc.count({
       where: { durum: 'odunc' }
     });
@@ -29,13 +29,19 @@ const istatistikleriGetir = async (istek, yanit) => {
     // Toplam üye sayısı
     const toplamUye = await Uye.count();
 
+    // Gecikmiş ödünç sayısı
+    const gecikmisSayi = await Odunc.count({
+      where: { durum: 'gecikti' }
+    });
+
     yanit.json({
       basarili: true,
       toplamKitap,
       toplamKategori,
       mevcutKitap,
       oduncKitap,
-      toplamUye
+      toplamUye,
+      gecikmisSayi
     });
   } catch (hata) {
     console.error('İstatistik hatası:', hata);
@@ -46,4 +52,68 @@ const istatistikleriGetir = async (istek, yanit) => {
   }
 };
 
-module.exports = { istatistikleriGetir };
+// ---- Admin Paneli Detaylı İstatistikler ----
+const adminIstatistikleriGetir = async (istek, yanit) => {
+  try {
+    // Genel sayımlar
+    const toplamKitap = await Kitap.count();
+    const toplamUye = await Uye.count();
+    const toplamOdunc = await Odunc.count();
+    const aktifOdunc = await Odunc.count({ where: { durum: 'odunc' } });
+    const gecikmisSayi = await Odunc.count({ where: { durum: 'gecikti' } });
+    const iadeSayi = await Odunc.count({ where: { durum: 'iade_edildi' } });
+    const mevcutKitap = await Kitap.sum('mevcut_adet') || 0;
+
+    // Son 5 ödünç işlemi
+    const sonOduncler = await Odunc.findAll({
+      limit: 5,
+      order: [['created_at', 'DESC']],
+      include: [
+        { model: Uye, as: 'uye', attributes: ['ad', 'soyad', 'eposta'] },
+        { model: Kitap, as: 'kitap', attributes: ['baslik', 'yazar'] }
+      ]
+    });
+
+    // Gecikmiş ödünçler (tüm listesi)
+    const gecikmisList = await Odunc.findAll({
+      where: { durum: 'gecikti' },
+      include: [
+        { model: Uye, as: 'uye', attributes: ['ad', 'soyad', 'eposta'] },
+        { model: Kitap, as: 'kitap', attributes: ['baslik'] }
+      ],
+      order: [['son_iade_tarihi', 'ASC']]
+    });
+
+    // Stokta az kalan kitaplar (mevcutAdet <= 1)
+    const azKalanKitaplar = await Kitap.findAll({
+      where: { mevcutAdet: { [Op.lte]: 1 } },
+      attributes: ['id', 'baslik', 'yazar', 'stokAdedi', 'mevcutAdet'],
+      order: [['mevcut_adet', 'ASC']],
+      limit: 5
+    });
+
+    yanit.json({
+      basarili: true,
+      ozet: {
+        toplamKitap,
+        toplamUye,
+        toplamOdunc,
+        aktifOdunc,
+        gecikmisSayi,
+        iadeSayi,
+        mevcutKitap
+      },
+      sonOduncler,
+      gecikmisList,
+      azKalanKitaplar
+    });
+  } catch (hata) {
+    console.error('Admin istatistik hatası:', hata);
+    yanit.status(500).json({
+      basarili: false,
+      mesaj: 'Admin istatistikleri getirilirken bir hata oluştu.'
+    });
+  }
+};
+
+module.exports = { istatistikleriGetir, adminIstatistikleriGetir };

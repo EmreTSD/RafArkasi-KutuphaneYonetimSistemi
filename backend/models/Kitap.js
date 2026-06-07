@@ -28,8 +28,11 @@ const Kitap = veritabani.define('kitap', {
   },
   isbn: {
     type: DataTypes.STRING(20),
-    allowNull: true,
-    unique: { msg: 'Bu ISBN numarası zaten kayıtlı' }
+    allowNull: false,
+    unique: { msg: 'Bu ISBN numarası zaten kayıtlı' },
+    validate: {
+      notEmpty: { msg: 'ISBN numarası boş bırakılamaz' }
+    }
   },
   kategori: {
     type: DataTypes.STRING(50),
@@ -41,7 +44,7 @@ const Kitap = veritabani.define('kitap', {
   },
   yayinYili: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
     field: 'yayin_yili',
     validate: {
       isInt: { msg: 'Yayın yılı sayı olmalıdır' },
@@ -51,7 +54,7 @@ const Kitap = veritabani.define('kitap', {
   },
   sayfaSayisi: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
     field: 'sayfa_sayisi',
     validate: {
       isInt: { msg: 'Sayfa sayısı sayı olmalıdır' },

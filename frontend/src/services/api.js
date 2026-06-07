@@ -15,22 +15,24 @@ const api = axios.create({
 
 // İstek öncesi token ekle (interceptor)
 api.interceptors.request.use(
-  (yapilandirma) => {
+  function (yapilandirma) {
     const token = localStorage.getItem('token');
     if (token) {
       yapilandirma.headers.Authorization = `Bearer ${token}`;
     }
     return yapilandirma;
   },
-  (hata) => {
+  function (hata) {
     return Promise.reject(hata);
   }
 );
 
 // Yanıt sonrası hata yönetimi
 api.interceptors.response.use(
-  (yanit) => yanit,
-  (hata) => {
+  function (yanit) {
+    return yanit;
+  },
+  function (hata) {
     if (hata.response && hata.response.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('uye');
@@ -42,40 +44,79 @@ api.interceptors.response.use(
 
 // ---- Yetkilendirme Servisleri ----
 export const yetkilendirmeServisi = {
-  kayitOl: (veri) => api.post('/yetkilendirme/kayit', veri),
-  girisYap: (veri) => api.post('/yetkilendirme/giris', veri),
-  profilGetir: () => api.get('/yetkilendirme/profil')
+  kayitOl: function (veri) {
+    return api.post('/yetkilendirme/kayit', veri);
+  },
+  girisYap: function (veri) {
+    return api.post('/yetkilendirme/giris', veri);
+  },
+  profilGetir: function () {
+    return api.get('/yetkilendirme/profil');
+  }
 };
 
 // ---- Kitap Servisleri ----
 export const kitapServisi = {
-  tumunuGetir: (parametreler) => api.get('/kitaplar', { params: parametreler }),
-  tekGetir: (id) => api.get(`/kitaplar/${id}`),
-  ekle: (veri) => api.post('/kitaplar', veri),
-  guncelle: (id, veri) => api.put(`/kitaplar/${id}`, veri),
-  sil: (id) => api.delete(`/kitaplar/${id}`),
-  kategorileriGetir: () => api.get('/kitaplar/kategoriler')
+  tumunuGetir: function (parametreler) {
+    return api.get('/kitaplar', { params: parametreler });
+  },
+  tekGetir: function (id) {
+    return api.get(`/kitaplar/${id}`);
+  },
+  ekle: function (veri) {
+    return api.post('/kitaplar', veri);
+  },
+  guncelle: function (id, veri) {
+    return api.put(`/kitaplar/${id}`, veri);
+  },
+  sil: function (id) {
+    return api.delete(`/kitaplar/${id}`);
+  },
+  kategorileriGetir: function () {
+    return api.get('/kitaplar/kategoriler');
+  }
 };
 
 // ---- İstatistik Servisleri ----
 export const istatistikServisi = {
-  getir: () => api.get('/istatistikler')
+  getir: function () {
+    return api.get('/istatistikler');
+  },
+  adminGetir: function () {
+    return api.get('/istatistikler/admin');
+  }
 };
 
 // ---- Üye Servisleri ----
 export const uyeServisi = {
-  tumunuGetir: (parametreler) => api.get('/uyeler', { params: parametreler }),
-  tekGetir: (id) => api.get(`/uyeler/${id}`),
-  guncelle: (id, veri) => api.put(`/uyeler/${id}`, veri),
-  sil: (id) => api.delete(`/uyeler/${id}`)
+  tumunuGetir: function (parametreler) {
+    return api.get('/uyeler', { params: parametreler });
+  },
+  tekGetir: function (id) {
+    return api.get(`/uyeler/${id}`);
+  },
+  guncelle: function (id, veri) {
+    return api.put(`/uyeler/${id}`, veri);
+  },
+  sil: function (id) {
+    return api.delete(`/uyeler/${id}`);
+  }
 };
 
 // ---- Ödünç Servisleri ----
 export const oduncServisi = {
-  tumunuGetir: (parametreler) => api.get('/odunc', { params: parametreler }),
-  oduncVer: (veri) => api.post('/odunc', veri),
-  iadeEt: (id) => api.put(`/odunc/iade/${id}`),
-  uyeOduncleri: (uyeId) => api.get(`/odunc/uye/${uyeId}`)
+  tumunuGetir: function (parametreler) {
+    return api.get('/odunc', { params: parametreler });
+  },
+  oduncVer: function (veri) {
+    return api.post('/odunc', veri);
+  },
+  iadeEt: function (id) {
+    return api.put(`/odunc/iade/${id}`);
+  },
+  uyeOduncleri: function (uyeId) {
+    return api.get(`/odunc/uye/${uyeId}`);
+  }
 };
 
 export default api;

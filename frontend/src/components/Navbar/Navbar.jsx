@@ -42,6 +42,11 @@ const Navbar = () => {
           {girisYapildiMi && adminMi && (
             <>
               <li>
+                <NavLink to="/admin" className={({ isActive }) => `navbar-link ${isActive ? 'aktif' : ''}`} onClick={menuKapat} id="nav-admin">
+                  🛠️ Admin Panel
+                </NavLink>
+              </li>
+              <li>
                 <NavLink to="/uyeler" className={({ isActive }) => `navbar-link ${isActive ? 'aktif' : ''}`} onClick={menuKapat} id="nav-uyeler">
                   👥 Üyeler
                 </NavLink>

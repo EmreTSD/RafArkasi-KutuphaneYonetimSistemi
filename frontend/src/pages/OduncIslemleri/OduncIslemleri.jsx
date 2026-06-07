@@ -150,7 +150,7 @@ const OduncIslemleri = () => {
                   <td>{oduncKaydi.iadeTarihi ? new Date(oduncKaydi.iadeTarihi).toLocaleDateString('tr-TR') : '-'}</td>
                   <td>{durumRozeti(oduncKaydi.durum)}</td>
                   <td>
-                    {oduncKaydi.durum === 'odunc' && (
+                    {(oduncKaydi.durum === 'odunc' || oduncKaydi.durum === 'gecikti') && (
                       <button className="btn btn-basari btn-kucuk" onClick={() => iadeIslemi(oduncKaydi.id)}>
                         📥 İade
                       </button>

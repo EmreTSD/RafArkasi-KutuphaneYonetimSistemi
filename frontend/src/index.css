@@ -234,6 +234,11 @@ select.form-girdi {
   padding-right: 36px;
 }
 
+select.form-girdi option {
+  background-color: var(--renk-arkaplan-3);
+  color: var(--renk-metin);
+}
+
 textarea.form-girdi {
   resize: vertical;
   min-height: 100px;

@@ -14,6 +14,7 @@ import AnaSayfa from './pages/AnaSayfa/AnaSayfa';
 import Kitaplar from './pages/Kitaplar/Kitaplar';
 import Uyeler from './pages/Uyeler/Uyeler';
 import OduncIslemleri from './pages/OduncIslemleri/OduncIslemleri';
+import AdminPanel from './pages/AdminPanel/AdminPanel';
 import GirisYap from './pages/GirisYap/GirisYap';
 import KayitOl from './pages/KayitOl/KayitOl';
 
@@ -40,6 +41,7 @@ function App() {
           <Route path="/kayit" element={<GirisKontrol><KayitOl /></GirisKontrol>} />
 
           {/* Yalnızca Adminlere Açık Rotalar */}
+          <Route path="/admin" element={<KorumaliRota><AdminPanel /></KorumaliRota>} />
           <Route path="/uyeler" element={<KorumaliRota><Uyeler /></KorumaliRota>} />
           <Route path="/odunc" element={<KorumaliRota><OduncIslemleri /></KorumaliRota>} />
 

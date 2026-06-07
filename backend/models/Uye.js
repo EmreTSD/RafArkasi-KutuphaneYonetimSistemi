@@ -51,6 +51,12 @@ const Uye = veritabani.define('uye', {
   telefon: {
     type: DataTypes.STRING(20),
     allowNull: true
+  },
+  aktifMi: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+    field: 'aktif_mi'
   }
 }, {
   tableName: 'uye',
