@@ -73,6 +73,7 @@ const AnaSayfa = () => {
           </div>
 
           <div className="istatistik-kart">
+            <div className="istatistik-ikon">⏳</div>
             <div className="istatistik-deger">{istatistikler.oduncKitap}</div>
             <div className="istatistik-etiket">Ödünçteki Kitap</div>
           </div>
