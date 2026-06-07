@@ -9,7 +9,9 @@ const { Uye } = require('../models');
 // ---- Tüm Üyeleri Getir ----
 const tumUyeleriGetir = async (istek, yanit) => {
   try {
-    const { arama = '', sayfa = 1, limit = 10 } = istek.query;
+    const arama = istek.query.arama || '';
+    const sayfa = istek.query.sayfa || 1;
+    const limit = istek.query.limit || 10;
 
     // Filtreleme koşulları
     const kosullar = {};

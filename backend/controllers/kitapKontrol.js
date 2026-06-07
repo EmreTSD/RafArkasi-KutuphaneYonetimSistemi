@@ -3,18 +3,16 @@
 // Kitap CRUD işlemleri, arama ve sayfalama
 // ============================================
 
-const { Op } = require('sequelize');
+const { Op, fn, col } = require('sequelize');
 const { Kitap } = require('../models');
 
 // ---- Tüm Kitapları Getir (Arama + Sayfalama) ----
 const tumKitaplariGetir = async (istek, yanit) => {
   try {
-    const {
-      sayfa = 1,
-      limit = 10,
-      arama = '',
-      kategori = ''
-    } = istek.query;
+    const sayfa = istek.query.sayfa || 1;
+    const limit = istek.query.limit || 10;
+    const arama = istek.query.arama || '';
+    const kategori = istek.query.kategori || '';
 
     // Filtreleme koşulları
     const kosullar = {};
@@ -37,7 +35,13 @@ const tumKitaplariGetir = async (istek, yanit) => {
     const ofset = (parseInt(sayfa) - 1) * parseInt(limit);
 
     // Kitapları getir
-    const { count: toplam, rows: kitaplar } = await Kitap.findAndCountAll({
+    // Toplam filtrelere uyan kitap sayısını sayalım
+    const toplam = await Kitap.count({
+      where: kosullar
+    });
+
+    // Sadece bu sayfadaki kitapların listesini getirelim
+    const kitaplar = await Kitap.findAll({
       where: kosullar,
       limit: parseInt(limit),
       offset: ofset,
@@ -87,23 +91,23 @@ const kitapEkle = async (istek, yanit) => {
   try {
     const { baslik, yazar, isbn, kategori, yayinYili, sayfaSayisi, stokAdedi, aciklama } = istek.body;
 
-    if (!baslik || !yazar) {
+    if (!baslik || !yazar || !isbn || !yayinYili || !sayfaSayisi) {
       return yanit.status(400).json({
         basarili: false,
-        mesaj: 'Kitap başlığı ve yazar alanları zorunludur.'
+        mesaj: 'Kitap başlığı, yazar, ISBN, yayın yılı ve sayfa sayısı alanları zorunludur.'
       });
     }
 
     const yeniKitap = await Kitap.create({
       baslik,
       yazar,
-      isbn,
+      isbn: isbn === '' ? null : isbn,
       kategori: kategori || 'Genel',
-      yayinYili,
-      sayfaSayisi,
+      yayinYili: yayinYili === '' ? null : yayinYili,
+      sayfaSayisi: sayfaSayisi === '' ? null : sayfaSayisi,
       stokAdedi: stokAdedi || 1,
       mevcutAdet: stokAdedi || 1,
-      aciklama
+      aciklama: aciklama === '' ? null : aciklama
     });
 
     yanit.status(201).json({
@@ -133,7 +137,31 @@ const kitapGuncelle = async (istek, yanit) => {
       });
     }
 
-    await kitap.update(istek.body);
+    // İstek gövdesindeki boş string değerlerini veritabanı kısıtlamaları için null yapalım
+    const guncellenecekVeriler = { ...istek.body };
+    const bosOlabilecekAlanlar = ['isbn', 'yayinYili', 'sayfaSayisi', 'aciklama'];
+
+    bosOlabilecekAlanlar.forEach(function (alan) {
+      if (guncellenecekVeriler[alan] === '') {
+        guncellenecekVeriler[alan] = null;
+      }
+    });
+
+    // Stok adedi güncellendiyse, aradaki farkı hesaplayıp mevcut adedi (raftaki) güncelleyelim
+    if (guncellenecekVeriler.stokAdedi !== undefined) {
+      const yeniStok = parseInt(guncellenecekVeriler.stokAdedi);
+      const eskiStok = parseInt(kitap.stokAdedi);
+
+      if (!isNaN(yeniStok) && !isNaN(eskiStok)) {
+        const fark = yeniStok - eskiStok;
+        const eskiMevcut = parseInt(kitap.mevcutAdet) || 0;
+
+        // Sayısal toplama yapılmasını garanti altına alıp mevcut adeti güncelleyelim
+        guncellenecekVeriler.mevcutAdet = Math.max(0, eskiMevcut + fark);
+      }
+    }
+
+    await kitap.update(guncellenecekVeriler);
 
     yanit.json({
       basarili: true,
@@ -144,7 +172,8 @@ const kitapGuncelle = async (istek, yanit) => {
     console.error('Kitap güncelleme hatası:', hata);
     yanit.status(500).json({
       basarili: false,
-      mesaj: 'Kitap güncellenirken bir hata oluştu.'
+      mesaj: 'Kitap güncellenirken bir hata oluştu.',
+      hata: hata.message
     });
   }
 };
@@ -180,7 +209,7 @@ const kitapSil = async (istek, yanit) => {
 const kategorileriGetir = async (istek, yanit) => {
   try {
     const kategoriler = await Kitap.findAll({
-      attributes: [[require('sequelize').fn('DISTINCT', require('sequelize').col('kategori')), 'kategori']],
+      attributes: [[fn('DISTINCT', col('kategori')), 'kategori']],
       order: [['kategori', 'ASC']]
     });
 

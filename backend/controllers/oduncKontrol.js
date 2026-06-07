@@ -9,7 +9,10 @@ const { Odunc, Uye, Kitap } = require('../models');
 // ---- Tüm Ödünç Kayıtlarını Getir ----
 const tumOduncleriGetir = async (istek, yanit) => {
   try {
-    const { durum = '', sayfa = 1, limit = 10 } = istek.query;
+    const durum = istek.query.durum || '';
+    const sayfa = istek.query.sayfa || 1;
+    const limit = istek.query.limit || 10;
+
 
     const kosullar = {};
     if (durum) {
@@ -18,7 +21,11 @@ const tumOduncleriGetir = async (istek, yanit) => {
 
     const ofset = (parseInt(sayfa) - 1) * parseInt(limit);
 
-    const { count: toplam, rows: oduncler } = await Odunc.findAndCountAll({
+    const toplam = await Odunc.count({
+      where: kosullar
+    });
+
+    const oduncler = await Odunc.findAll({
       where: kosullar,
       include: [
         {
