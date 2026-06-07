@@ -30,13 +30,20 @@
 }
 
 .sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.sidebar-logo-metin {
+  display: inline-block;
   font-size: 1.1rem;
   font-weight: 800;
   background: linear-gradient(135deg, var(--renk-vurgu), var(--renk-vurgu-parlak));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 4px;
 }
 
 .sidebar-alt-baslik {
@@ -63,30 +70,30 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 11px 14px;
+  padding: 10px 12px;
   border-radius: var(--yuvarlaklık-orta);
   color: var(--renk-metin-2);
   font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: var(--gecis);
-  margin-bottom: 2px;
+  margin-bottom: 4px;
   border: none;
-  background: none;
+  background: transparent;
   width: 100%;
   text-align: left;
   text-decoration: none;
 }
 
 .sidebar-link:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--renk-metin);
 }
 
 .sidebar-link.aktif {
-  background: linear-gradient(135deg, rgba(226, 183, 20, 0.15), rgba(240, 200, 48, 0.08));
+  background: rgba(234, 179, 8, 0.08); /* Tailwind yellow-500 %8 */
   color: var(--renk-vurgu);
-  border: 1px solid rgba(226, 183, 20, 0.2);
+  font-weight: 600;
 }
 
 .sidebar-link-ikon {
@@ -117,19 +124,17 @@
 }
 
 .admin-sayfa-baslik {
-  font-size: 1.6rem;
-  font-weight: 800;
-  margin-bottom: 6px;
-  background: linear-gradient(135deg, var(--renk-metin), var(--renk-vurgu));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--renk-metin);
+  letter-spacing: -0.02em;
 }
 
 .admin-sayfa-aciklama {
   color: var(--renk-metin-2);
   font-size: 0.9rem;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 }
 
 /* ---- İstatistik Kartları Grid ---- */
@@ -144,91 +149,92 @@
   background: var(--renk-kart);
   border: 1px solid var(--renk-kenarlik);
   border-radius: var(--yuvarlaklık-buyuk);
-  padding: 22px 24px;
+  padding: 24px;
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   transition: var(--gecis);
   position: relative;
   overflow: hidden;
-}
-
-.istat-kart::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--kart-renk, var(--renk-vurgu));
+  box-shadow: var(--golge-kucuk);
 }
 
 .istat-kart:hover {
-  border-color: var(--renk-kenarlik-hover);
   transform: translateY(-2px);
   box-shadow: var(--golge-orta);
+  border-color: var(--renk-kenarlik-hover);
 }
 
+/* Kart Üst Çizgileri - Softlaştırıldı */
+.istat-kart::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--renk-kenarlik);
+  transition: var(--gecis);
+}
+
+.istat-kart.mavi::before { background: var(--renk-bilgi); }
+.istat-kart.altin::before { background: var(--renk-vurgu); }
+.istat-kart.yesil::before { background: var(--renk-basari); }
+.istat-kart.kirmizi::before { background: var(--renk-hata); }
+.istat-kart.uyari::before { background: var(--renk-uyari); }
+.istat-kart.mor::before { background: var(--renk-mor); }
+
 .istat-ikon {
-  font-size: 1.8rem;
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--yuvarlaklık-orta);
+  background: rgba(255, 255, 255, 0.04);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: var(--yuvarlaklık-orta);
-  flex-shrink: 0;
+  font-size: 1.4rem;
 }
 
-.istat-bilgi {}
-
 .istat-sayi {
-  font-size: 1.9rem;
-  font-weight: 800;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--renk-metin);
-  line-height: 1.1;
+  line-height: 1.2;
 }
 
 .istat-etiket {
   font-size: 0.8rem;
-  color: var(--renk-metin-3);
-  margin-top: 3px;
+  color: var(--renk-metin-2);
+  font-weight: 500;
+  margin-top: 4px;
 }
 
-/* ---- Renk Varyantları ---- */
-.istat-kart.mavi { --kart-renk: var(--renk-mavi); }
-.istat-kart.altin { --kart-renk: var(--renk-vurgu); }
-.istat-kart.yesil { --kart-renk: var(--renk-basari); }
-.istat-kart.kirmizi { --kart-renk: var(--renk-hata); }
-.istat-kart.mor { --kart-renk: var(--renk-mor); }
-.istat-kart.uyari { --kart-renk: var(--renk-uyari); }
-
-/* ---- İki Sütun Grid ---- */
+/* ---- İki Sütunlu Panel ---- */
 .admin-iki-sutun {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 24px;
   margin-bottom: 24px;
 }
 
-/* ---- Panel Kartı ---- */
 .panel-kart {
   background: var(--renk-kart);
   border: 1px solid var(--renk-kenarlik);
   border-radius: var(--yuvarlaklık-buyuk);
-  overflow: hidden;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--golge-kucuk);
 }
 
 .panel-kart-baslik {
-  padding: 18px 22px;
-  border-bottom: 1px solid var(--renk-kenarlik);
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
   color: var(--renk-metin);
   display: flex;
   align-items: center;
   gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--renk-kenarlik);
 }
 
 .panel-kart-icerik {
@@ -236,27 +242,36 @@
 }
 
 /* ---- İşlem Satırı ---- */
-.islem-satir {
+.islem-satir, .gecikti-satir, .stok-satir {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 13px 22px;
-  border-bottom: 1px solid var(--renk-kenarlik);
-  transition: var(--gecis);
-}
-
-.islem-satir:last-child {
-  border-bottom: none;
-}
-
-.islem-satir:hover {
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
   background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--yuvarlaklık-kucuk);
+  margin-bottom: 8px;
+  transition: var(--gecis);
+  border: 1px solid transparent;
+}
+
+.islem-satir:last-child,
+.gecikti-satir:last-child,
+.stok-satir:last-child {
+  margin-bottom: 0;
+}
+
+.islem-satir:hover,
+.gecikti-satir:hover,
+.stok-satir:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 .islem-ikon {
   width: 36px;
   height: 36px;
-  border-radius: var(--yuvarlaklık-orta);
+  border-radius: var(--yuvarlaklık-kucuk);
   display: flex;
   align-items: center;
   justify-content: center;

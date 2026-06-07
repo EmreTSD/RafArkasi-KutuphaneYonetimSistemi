@@ -6,10 +6,10 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(10, 10, 20, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--renk-kenarlik);
+  background: rgba(11, 15, 25, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .navbar-icerik {
@@ -72,8 +72,9 @@
 }
 
 .navbar-link.aktif {
-  color: var(--renk-vurgu);
-  background: rgba(226, 183, 20, 0.08);
+  color: var(--renk-metin);
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 600;
 }
 
 .navbar-aksiyonlar {

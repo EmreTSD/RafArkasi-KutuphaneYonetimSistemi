@@ -7,51 +7,51 @@
 /* ---- CSS Değişkenleri ---- */
 :root {
   /* Ana Renkler */
-  --renk-arkaplan: #0a0a14;
-  --renk-arkaplan-2: #12121e;
-  --renk-arkaplan-3: #1a1a2e;
-  --renk-kart: #16213e;
-  --renk-kart-hover: #1c2a4a;
+  --renk-arkaplan: #0b0f19;
+  --renk-arkaplan-2: #111827;
+  --renk-arkaplan-3: #1f2937;
+  --renk-kart: #1e293b;
+  --renk-kart-hover: #334155;
 
   /* Vurgu Renkleri */
-  --renk-vurgu: #e2b714;
-  --renk-vurgu-parlak: #f0c830;
+  --renk-vurgu: #eab308;
+  --renk-vurgu-parlak: #fde047;
   --renk-mavi: #3b82f6;
   --renk-mavi-parlak: #60a5fa;
   --renk-mor: #8b5cf6;
 
   /* Metin Renkleri */
-  --renk-metin: #f0f0f5;
-  --renk-metin-2: #a0a0b8;
-  --renk-metin-3: #6b6b80;
+  --renk-metin: #f8fafc;
+  --renk-metin-2: #94a3b8;
+  --renk-metin-3: #64748b;
 
   /* Durum Renkleri */
-  --renk-basari: #22c55e;
+  --renk-basari: #10b981;
   --renk-uyari: #f59e0b;
   --renk-hata: #ef4444;
   --renk-bilgi: #3b82f6;
 
   /* Kenarlık */
-  --renk-kenarlik: rgba(255, 255, 255, 0.08);
-  --renk-kenarlik-hover: rgba(255, 255, 255, 0.15);
+  --renk-kenarlik: rgba(255, 255, 255, 0.06);
+  --renk-kenarlik-hover: rgba(255, 255, 255, 0.12);
 
   /* Tipografi */
   --font-ailesi: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* Gölgeler */
-  --golge-kucuk: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --golge-orta: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --golge-buyuk: 0 8px 40px rgba(0, 0, 0, 0.5);
-  --golge-vurgu: 0 0 20px rgba(226, 183, 20, 0.2);
+  /* Gölgeler (SaaS Subtle Shadows) */
+  --golge-kucuk: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --golge-orta: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --golge-buyuk: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --golge-vurgu: 0 4px 14px 0 rgba(234, 179, 8, 0.15);
 
   /* Geçişler */
-  --gecis: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --gecis: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Köşe Yuvarlaklığı */
-  --yuvarlaklık-kucuk: 6px;
-  --yuvarlaklık-orta: 10px;
+  --yuvarlaklık-kucuk: 8px;
+  --yuvarlaklık-orta: 12px;
   --yuvarlaklık-buyuk: 16px;
-  --yuvarlaklık-tam: 50px;
+  --yuvarlaklık-tam: 9999px;
 }
 
 /* ---- Sıfırlama ---- */
@@ -61,6 +61,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 html {
@@ -74,11 +79,13 @@ body {
   color: var(--renk-metin);
   line-height: 1.6;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Arka plan deseni */
+/* Arka plan deseni - Softleştirildi */
 body::before {
   content: '';
   position: fixed;
@@ -87,9 +94,9 @@ body::before {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(226, 183, 20, 0.04) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(139, 92, 246, 0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(234, 179, 8, 0.02) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -126,16 +133,15 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px 24px;
+  padding: 10px 20px;
   font-family: var(--font-ailesi);
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 500;
   border: none;
   border-radius: var(--yuvarlaklık-orta);
   cursor: pointer;
   transition: var(--gecis);
   text-decoration: none;
-  white-space: nowrap;
 }
 
 .btn:active {
@@ -143,35 +149,40 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-birincil {
-  background: linear-gradient(135deg, var(--renk-vurgu), var(--renk-vurgu-parlak));
-  color: #0a0a14;
-  box-shadow: 0 2px 12px rgba(226, 183, 20, 0.3);
+  background: var(--renk-vurgu);
+  color: #111827; /* koyu metin sarı üzerinde */
+  font-weight: 600;
+  box-shadow: var(--golge-kucuk);
 }
 
 .btn-birincil:hover {
-  box-shadow: 0 4px 20px rgba(226, 183, 20, 0.5);
-  transform: translateY(-2px);
+  background: var(--renk-vurgu-parlak);
+  transform: translateY(-1px);
+  box-shadow: var(--golge-orta);
 }
 
 .btn-ikincil {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--renk-metin);
   border: 1px solid var(--renk-kenarlik);
 }
 
 .btn-ikincil:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: var(--renk-kenarlik-hover);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .btn-tehlike {
-  background: linear-gradient(135deg, var(--renk-hata), #dc2626);
-  color: white;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--renk-hata);
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .btn-tehlike:hover {
-  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
-  transform: translateY(-2px);
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.3);
+  transform: translateY(-1px);
 }
 
 .btn-basari {

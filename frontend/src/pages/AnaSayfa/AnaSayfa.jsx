@@ -48,7 +48,7 @@ const AnaSayfa = () => {
         <div className="hero-butonlar">
           <Link to="/kitaplar" className="btn btn-birincil" id="hero-kitaplar-btn">📖 Kitapları Keşfet</Link>
           {!girisYapildiMi && <Link to="/kayit" className="btn btn-ikincil" id="hero-kayit-btn">✨ Üye Ol</Link>}
-          {girisYapildiMi && adminMi && <Link to="/odunc" className="btn btn-ikincil" id="hero-odunc-btn">🔄 Ödünç İşlemleri</Link>}
+          {girisYapildiMi && adminMi && <Link to="/odunc" className="btn btn-ikincil" id="hero-odunc-btn">Ödünç İşlemleri</Link>}
         </div>
       </section>
       <section className="istatistik-bolum">
@@ -73,7 +73,6 @@ const AnaSayfa = () => {
           </div>
 
           <div className="istatistik-kart">
-            <div className="istatistik-ikon">🔄</div>
             <div className="istatistik-deger">{istatistikler.oduncKitap}</div>
             <div className="istatistik-etiket">Ödünçteki Kitap</div>
           </div>

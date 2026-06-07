@@ -31,29 +31,29 @@ const Navbar = () => {
         <ul className={`navbar-menu ${menuAcik ? 'acik' : ''}`}>
           <li>
             <NavLink to="/" className={({ isActive }) => `navbar-link ${isActive ? 'aktif' : ''}`} onClick={menuKapat} end id="nav-anasayfa">
-              🏠 Ana Sayfa
+              Ana Sayfa
             </NavLink>
           </li>
           <li>
             <NavLink to="/kitaplar" className={({ isActive }) => `navbar-link ${isActive ? 'aktif' : ''}`} onClick={menuKapat} id="nav-kitaplar">
-              📖 Kitaplar
+              Kitaplar
             </NavLink>
           </li>
           {girisYapildiMi && adminMi && (
             <>
               <li>
                 <NavLink to="/admin" className={({ isActive }) => `navbar-link ${isActive ? 'aktif' : ''}`} onClick={menuKapat} id="nav-admin">
-                  🛠️ Admin Panel
+                  Admin Panel
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/uyeler" className={({ isActive }) => `navbar-link ${isActive ? 'aktif' : ''}`} onClick={menuKapat} id="nav-uyeler">
-                  👥 Üyeler
+                  Üyeler
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/odunc" className={({ isActive }) => `navbar-link ${isActive ? 'aktif' : ''}`} onClick={menuKapat} id="nav-odunc">
-                  🔄 Ödünç İşlemleri
+                  Ödünç İşlemleri
                 </NavLink>
               </li>
             </>

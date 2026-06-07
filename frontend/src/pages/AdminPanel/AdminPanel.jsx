@@ -29,7 +29,7 @@ const durumIkon = (durum) => {
 // ============================================
 const Dashboard = ({ ozet, sonOduncler, gecikmisList, azKalanKitaplar }) => (
   <div>
-    <h1 className="admin-sayfa-baslik">📊 Dashboard</h1>
+    <h1 className="admin-sayfa-baslik">Dashboard Paneli</h1>
     <p className="admin-sayfa-aciklama">RafArkası yönetim sistemine genel bakış</p>
 
     {/* İstatistik Kartları */}
@@ -56,7 +56,7 @@ const Dashboard = ({ ozet, sonOduncler, gecikmisList, azKalanKitaplar }) => (
         </div>
       </div>
       <div className="istat-kart uyari">
-        <div className="istat-ikon">🔄</div>
+        <div className="istat-ikon">📋</div>
         <div className="istat-bilgi">
           <div className="istat-sayi">{ozet.aktifOdunc}</div>
           <div className="istat-etiket">Aktif Ödünç</div>
@@ -209,7 +209,7 @@ const AdminPanel = () => {
     { anahtar: 'dashboard', ikon: '📊', metin: 'Dashboard' },
     { anahtar: 'kitaplar', ikon: '📚', metin: 'Kitap Yönetimi', rota: '/kitaplar' },
     { anahtar: 'uyeler', ikon: '👥', metin: 'Üye Yönetimi', rota: '/uyeler' },
-    { anahtar: 'odunc', ikon: '🔄', metin: 'Ödünç Yönetimi', rota: '/odunc' },
+    { anahtar: 'odunc', ikon: '📋', metin: 'Ödünç Yönetimi', rota: '/odunc' },
   ];
 
   const menuTikla = (oge) => {
@@ -228,8 +228,8 @@ const AdminPanel = () => {
       {/* Sidebar */}
       <aside className="admin-sidebar">
         <div className="sidebar-baslik">
-          <div className="sidebar-logo">📚 Raf Arkası</div>
-          <div className="sidebar-alt-baslik">Yönetim Paneli</div>
+          <div className="sidebar-logo-metin" style={{ fontSize: '1.2rem', marginBottom: '4px' }}>Yönetim Paneli</div>
+          <div className="sidebar-alt-baslik">Hızlı Erişim Menüsü</div>
         </div>
 
         <nav className="sidebar-nav">

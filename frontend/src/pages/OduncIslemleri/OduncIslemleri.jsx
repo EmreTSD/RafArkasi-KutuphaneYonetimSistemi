@@ -17,6 +17,7 @@ const OduncIslemleri = () => {
   const [modalAcik, modalAcikAyarla] = useState(false);
   const [kitaplar, kitaplarAyarla] = useState([]);
   const [uyeler, uyelerAyarla] = useState([]);
+  const [iadeOnay, iadeOnayAyarla] = useState({ acik: false, id: null });
   const [form, formAyarla] = useState({ kitapId: '', uyeId: '', iadeTarihi: '' });
 
   const oduncleriGetir = async () => {
@@ -70,14 +71,20 @@ const OduncIslemleri = () => {
     }
   };
 
-  const iadeIslemi = async (id) => {
-    if (!window.confirm('Bu kitabı iade edilmiş olarak işaretlemek istiyor musunuz?')) return;
+  const iadeIstek = (id) => {
+    iadeOnayAyarla({ acik: true, id });
+  };
+
+  const iadeOnayla = async () => {
+    if (!iadeOnay.id) return;
     try {
-      await oduncServisi.iadeEt(id);
+      await oduncServisi.iadeEt(iadeOnay.id);
       mesajAyarla({ tip: 'basari', metin: 'Kitap başarıyla iade alındı!' });
+      iadeOnayAyarla({ acik: false, id: null });
       oduncleriGetir();
     } catch {
       mesajAyarla({ tip: 'hata', metin: 'İade işlemi sırasında bir hata oluştu.' });
+      iadeOnayAyarla({ acik: false, id: null });
     }
   };
 
@@ -94,7 +101,7 @@ const OduncIslemleri = () => {
 
   return (
     <div className="sayfa-kapsayici" id="odunc-sayfa">
-      <h1 className="sayfa-baslik">🔄 Ödünç İşlemleri</h1>
+      <h1 className="sayfa-baslik">Ödünç İşlemleri</h1>
       <p className="sayfa-aciklama">Kitap ödünç verme ve iade işlemlerini yönetin</p>
 
       {/* Bildirim Mesajı */}
@@ -125,7 +132,7 @@ const OduncIslemleri = () => {
       {yukleniyor ? (
         <YuklemeSpinner />
       ) : oduncler.length === 0 ? (
-        <BosDurum ikon="🔄" mesaj="Henüz ödünç işlemi bulunmuyor" />
+        <BosDurum mesaj="Henüz ödünç işlemi bulunmuyor" />
       ) : (
         <div className="tablo-kapsayici">
           <table className="tablo">
@@ -151,7 +158,7 @@ const OduncIslemleri = () => {
                   <td>{durumRozeti(oduncKaydi.durum)}</td>
                   <td>
                     {(oduncKaydi.durum === 'odunc' || oduncKaydi.durum === 'gecikti') && (
-                      <button className="btn btn-basari btn-kucuk" onClick={() => iadeIslemi(oduncKaydi.id)}>
+                      <button className="btn btn-basari btn-kucuk" onClick={() => iadeIstek(oduncKaydi.id)}>
                         📥 İade
                       </button>
                     )}
@@ -205,6 +212,27 @@ const OduncIslemleri = () => {
                 <button type="submit" className="btn btn-birincil">Ödünç Ver</button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* İade Onay Modalı */}
+      {iadeOnay.acik && (
+        <div className="modal-arka-plan" onClick={() => iadeOnayAyarla({ acik: false, id: null })}>
+          <div className="modal-icerik" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '400px', textAlign: 'center', padding: '32px' }}>
+            <div style={{ fontSize: '3rem', marginBottom: '16px' }}>📥</div>
+            <h2 className="modal-baslik" style={{ marginBottom: '12px' }}>İadeyi Onaylıyor musunuz?</h2>
+            <p style={{ color: 'var(--renk-metin-2)', marginBottom: '24px' }}>
+              Bu kitabı kütüphaneye iade edilmiş olarak işaretlemek üzeresiniz. Bu işlem geri alınamaz.
+            </p>
+            <div className="modal-butonlar" style={{ justifyContent: 'center' }}>
+              <button type="button" className="btn btn-ikincil" onClick={() => iadeOnayAyarla({ acik: false, id: null })}>
+                İptal
+              </button>
+              <button type="button" className="btn btn-basari" onClick={iadeOnayla}>
+                Evet, İade Et
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -14,11 +14,12 @@ const Uyeler = () => {
   const [yukleniyor, yukleniyorAyarla] = useState(true);
   const [arama, aramaAyarla] = useState('');
   const [mesaj, mesajAyarla] = useState({ tip: '', metin: '' });
+  const [silmeOnay, silmeOnayAyarla] = useState({ acik: false, id: null });
 
-  const uyeleriGetir = async (arananKelime = arama) => {
+  const uyeleriGetir = async (aramaKelimesi = '') => {
     yukleniyorAyarla(true);
     try {
-      const yanit = await uyeServisi.tumunuGetir({ arama: arananKelime, limit: 100 });
+      const yanit = await uyeServisi.tumunuGetir({ arama: aramaKelimesi, limit: 100 });
       if (yanit.data.basarili) {
         uyelerAyarla(yanit.data.uyeler);
       }
@@ -36,21 +37,27 @@ const Uyeler = () => {
     uyeleriGetir(arama);
   };
 
-  const uyeSilIslemi = async (id) => {
-    if (!window.confirm('Bu üyeyi silmek istediğinizden emin misiniz?')) return;
+  const uyeSilIstek = (id) => {
+    silmeOnayAyarla({ acik: true, id });
+  };
+
+  const uyeSilOnayla = async () => {
+    if (!silmeOnay.id) return;
     try {
-      await uyeServisi.sil(id);
+      await uyeServisi.sil(silmeOnay.id);
       mesajAyarla({ tip: 'basari', metin: 'Üye silindi!' });
+      silmeOnayAyarla({ acik: false, id: null });
       uyeleriGetir();
     } catch {
       mesajAyarla({ tip: 'hata', metin: 'Üye silinirken hata oluştu.' });
+      silmeOnayAyarla({ acik: false, id: null });
     }
   };
 
   return (
     <div className="sayfa-kapsayici" id="uyeler-sayfasi">
       <div className="sayfa-baslik-alani">
-        <h1 className="sayfa-baslik">👥 Üyeler</h1>
+        <h1 className="sayfa-baslik">Üyeler</h1>
         <p className="sayfa-aciklama">RafArkası üyelerini görüntüleyin ve yönetin</p>
       </div>
 
@@ -76,7 +83,7 @@ const Uyeler = () => {
       {yukleniyor ? (
         <YuklemeSpinner />
       ) : uyeler.length === 0 ? (
-        <BosDurum ikon="👥" mesaj="Henüz üye bulunmuyor" />
+        <BosDurum mesaj="Henüz üye bulunmuyor" />
       ) : (
         <div className="tablo-kapsayici">
           <table className="tablo">
@@ -109,7 +116,7 @@ const Uyeler = () => {
                     </span>
                   </td>
                   <td>
-                    <button className="btn btn-tehlike btn-kucuk" onClick={() => uyeSilIslemi(uye.id)}>
+                    <button className="btn btn-tehlike btn-kucuk" onClick={() => uyeSilIstek(uye.id)}>
                       🗑️ Sil
                     </button>
                   </td>
@@ -117,6 +124,27 @@ const Uyeler = () => {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* Silme Onay Modalı */}
+      {silmeOnay.acik && (
+        <div className="modal-arka-plan" onClick={() => silmeOnayAyarla({ acik: false, id: null })}>
+          <div className="modal-icerik" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '400px', textAlign: 'center', padding: '32px' }}>
+            <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🗑️</div>
+            <h2 className="modal-baslik" style={{ marginBottom: '12px' }}>Üyeyi Silmek İstediğinize Emin misiniz?</h2>
+            <p style={{ color: 'var(--renk-metin-2)', marginBottom: '24px' }}>
+              Bu işlem geri alınamaz. Üyenin tüm verileri sistemden kalıcı olarak silinecektir.
+            </p>
+            <div className="modal-butonlar" style={{ justifyContent: 'center' }}>
+              <button type="button" className="btn btn-ikincil" onClick={() => silmeOnayAyarla({ acik: false, id: null })}>
+                İptal
+              </button>
+              <button type="button" className="btn btn-tehlike" onClick={uyeSilOnayla}>
+                Evet, Sil
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

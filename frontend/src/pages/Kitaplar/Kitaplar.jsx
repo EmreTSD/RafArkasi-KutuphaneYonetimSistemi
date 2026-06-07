@@ -26,6 +26,7 @@ const Kitaplar = () => {
   const [genelSayi, genelSayiAyarla] = useState({});
   const [mesaj, mesajAyarla] = useState({ tip: '', metin: '' });
   const [modalAcik, modalAcikAyarla] = useState(false);
+  const [silmeOnay, silmeOnayAyarla] = useState({ acik: false, id: null });
   const [duzenlenen, duzenlenenAyarla] = useState(null);
   const [form, formAyarla] = useState(bosForm);
 
@@ -89,14 +90,20 @@ const Kitaplar = () => {
     }
   };
 
-  const kitapSilIslemi = async (id) => {
-    if (!window.confirm('Bu kitabı silmek istediğinizden emin misiniz?')) return;
+  const kitapSilIstek = (id) => {
+    silmeOnayAyarla({ acik: true, id });
+  };
+
+  const kitapSilOnayla = async () => {
+    if (!silmeOnay.id) return;
     try {
-      await kitapServisi.sil(id);
+      await kitapServisi.sil(silmeOnay.id);
       mesajAyarla({ tip: 'basari', metin: 'Kitap silindi!' });
+      silmeOnayAyarla({ acik: false, id: null });
       kitaplariGetir();
     } catch {
       mesajAyarla({ tip: 'hata', metin: 'Kitap silinirken hata oluştu.' });
+      silmeOnayAyarla({ acik: false, id: null });
     }
   };
 
@@ -145,9 +152,9 @@ const Kitaplar = () => {
               <KitapKart
                 key={kitap.id}
                 kitap={kitap}
+                onSil={kitapSilIstek}
                 adminMi={adminMi}
                 onDuzenle={modalAc}
-                onSil={kitapSilIslemi}
                 animasyonGecikmesi={`${index * 0.05}s`}
               />
             ))}
@@ -225,6 +232,27 @@ const Kitaplar = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Silme Onay Modalı */}
+      {silmeOnay.acik && (
+        <div className="modal-arka-plan" onClick={() => silmeOnayAyarla({ acik: false, id: null })}>
+          <div className="modal-icerik" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '400px', textAlign: 'center', padding: '32px' }}>
+            <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🗑️</div>
+            <h2 className="modal-baslik" style={{ marginBottom: '12px' }}>Kitabı Silmek İstediğinize Emin misiniz?</h2>
+            <p style={{ color: 'var(--renk-metin-2)', marginBottom: '24px' }}>
+              Bu işlem geri alınamaz. Kitap sistemden tamamen silinecektir.
+            </p>
+            <div className="modal-butonlar" style={{ justifyContent: 'center' }}>
+              <button type="button" className="btn btn-ikincil" onClick={() => silmeOnayAyarla({ acik: false, id: null })}>
+                İptal
+              </button>
+              <button type="button" className="btn btn-tehlike" onClick={kitapSilOnayla}>
+                Evet, Sil
+              </button>
+            </div>
           </div>
         </div>
       )}
