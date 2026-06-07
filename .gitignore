@@ -63,8 +63,6 @@ coverage/
 # ---- Package Lock (isteğe bağlı - projede kalacak) ----
 # package-lock.json
 
-# ---- Gemini / AI araç dosyaları ----
-.gemini/
 
 # ---- Proje Dokümanları (kişisel notlar) ----
 README.md
