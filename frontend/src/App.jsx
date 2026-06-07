@@ -7,6 +7,9 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useYetkilendirme } from './context/YetkilendirmeBaglami';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
+import KorumaliRota from './components/KorumaliRota/KorumaliRota';
+import YuklemeSpinner from './components/YuklemeSpinner/YuklemeSpinner';
+import BosDurum from './components/BosDurum/BosDurum';
 import AnaSayfa from './pages/AnaSayfa/AnaSayfa';
 import Kitaplar from './pages/Kitaplar/Kitaplar';
 import Uyeler from './pages/Uyeler/Uyeler';
@@ -14,19 +17,10 @@ import OduncIslemleri from './pages/OduncIslemleri/OduncIslemleri';
 import GirisYap from './pages/GirisYap/GirisYap';
 import KayitOl from './pages/KayitOl/KayitOl';
 
-// Korumalı rota (admin sayfaları için)
-const KorumaliRota = ({ children }) => {
-  const { girisYapildiMi, adminMi, yukleniyor } = useYetkilendirme();
-  if (yukleniyor) return <div className="spinner-kapsayici"><div className="spinner"></div></div>;
-  if (!girisYapildiMi) return <Navigate to="/giris" replace />;
-  if (!adminMi) return <Navigate to="/" replace />;
-  return children;
-};
-
-// Giriş yapılmışsa yönlendir
+// Giriş yapılmışsa giriş/kayıt sayfasına erişimi engelle
 const GirisKontrol = ({ children }) => {
   const { girisYapildiMi, yukleniyor } = useYetkilendirme();
-  if (yukleniyor) return <div className="spinner-kapsayici"><div className="spinner"></div></div>;
+  if (yukleniyor) return <YuklemeSpinner />;
   if (girisYapildiMi) return <Navigate to="/" replace />;
   return children;
 };
@@ -37,16 +31,22 @@ function App() {
       <Navbar />
       <main>
         <Routes>
+          {/* Herkese Açık Rotalar */}
           <Route path="/" element={<AnaSayfa />} />
           <Route path="/kitaplar" element={<Kitaplar />} />
+
+          {/* Yalnızca Giriş Yapmamışlara Açık Rotalar */}
           <Route path="/giris" element={<GirisKontrol><GirisYap /></GirisKontrol>} />
           <Route path="/kayit" element={<GirisKontrol><KayitOl /></GirisKontrol>} />
+
+          {/* Yalnızca Adminlere Açık Rotalar */}
           <Route path="/uyeler" element={<KorumaliRota><Uyeler /></KorumaliRota>} />
           <Route path="/odunc" element={<KorumaliRota><OduncIslemleri /></KorumaliRota>} />
+
+          {/* 404 Sayfası */}
           <Route path="*" element={
-            <div className="sayfa-kapsayici" style={{ textAlign: 'center', paddingTop: '80px' }}>
-              <h1 style={{ fontSize: '4rem', marginBottom: '16px' }}>404</h1>
-              <p style={{ color: 'var(--renk-metin-3)', fontSize: '1.1rem' }}>Aradığınız sayfa bulunamadı.</p>
+            <div className="sayfa-kapsayici">
+              <BosDurum ikon="🔍" mesaj="404 — Aradığınız sayfa bulunamadı." />
             </div>
           } />
         </Routes>
