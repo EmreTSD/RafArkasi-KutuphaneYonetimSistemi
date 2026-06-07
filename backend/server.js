@@ -65,8 +65,8 @@ const sunucuBaslat = async () => {
     // Veritabanı bağlantısını test et
     await veritabaniBaglantiTesti();
 
-    // Tabloları otomatik oluştur (geliştirme modunda)
-    await veritabani.sync({ alter: process.env.NODE_ENV === 'development' });
+    // Tabloları otomatik oluştur/güncelle (yeni alanları veritabanına ekler)
+    await veritabani.sync({ alter: true });
     console.log('✅ Veritabanı tabloları senkronize edildi!');
 
     // Sunucuyu dinlemeye başla
