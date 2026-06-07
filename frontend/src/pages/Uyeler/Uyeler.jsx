@@ -48,9 +48,11 @@ const Uyeler = () => {
   };
 
   return (
-    <div className="sayfa-kapsayici" id="uyeler-sayfa">
-      <h1 className="sayfa-baslik">👥 Üyeler</h1>
-      <p className="sayfa-aciklama">Kütüphane üyelerini görüntüleyin ve yönetin</p>
+    <div className="sayfa-kapsayici" id="uyeler-sayfasi">
+      <div className="sayfa-baslik-alani">
+        <h1 className="sayfa-baslik">👥 Üyeler</h1>
+        <p className="sayfa-aciklama">RafArkası üyelerini görüntüleyin ve yönetin</p>
+      </div>
 
       {/* Bildirim Mesajı */}
       <MesajBildirim mesaj={mesaj} mesajAyarla={mesajAyarla} />

@@ -30,7 +30,7 @@ const durumIkon = (durum) => {
 const Dashboard = ({ ozet, sonOduncler, gecikmisList, azKalanKitaplar }) => (
   <div>
     <h1 className="admin-sayfa-baslik">📊 Dashboard</h1>
-    <p className="admin-sayfa-aciklama">Kütüphane yönetim sistemine genel bakış</p>
+    <p className="admin-sayfa-aciklama">RafArkası yönetim sistemine genel bakış</p>
 
     {/* İstatistik Kartları */}
     <div className="istat-grid">

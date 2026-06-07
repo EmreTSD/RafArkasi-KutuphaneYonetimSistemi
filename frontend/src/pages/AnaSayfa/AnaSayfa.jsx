@@ -39,11 +39,11 @@ const AnaSayfa = () => {
     <div className="sayfa-kapsayici" id="anasayfa">
       <section className="anasayfa-hero">
         <div className="hero-ikon">📚</div>
-        <h1 className="hero-baslik">Kütüphane Yönetim Sistemi</h1>
+        <h1 className="hero-baslik">RafArkası Yönetim Sistemi</h1>
         <p className="hero-aciklama">
           Kitaplarınızı kolayca yönetin, üyelerinizi takip edin ve ödünç
           işlemlerini hızlıca gerçekleştirin. Modern ve kullanıcı dostu arayüz
-          ile kütüphanenizi dijital dünyaya taşıyın.
+          ile RafArkası'nı dijital dünyaya taşıyın.
         </p>
         <div className="hero-butonlar">
           <Link to="/kitaplar" className="btn btn-birincil" id="hero-kitaplar-btn">📖 Kitapları Keşfet</Link>

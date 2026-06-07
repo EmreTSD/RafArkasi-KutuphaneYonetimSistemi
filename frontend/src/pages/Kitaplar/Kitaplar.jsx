@@ -102,8 +102,12 @@ const Kitaplar = () => {
 
   return (
     <div className="sayfa-kapsayici" id="kitaplar-sayfa">
-      <h1 className="sayfa-baslik">📖 Kitaplar</h1>
-      <p className="sayfa-aciklama">Kütüphanedeki tüm kitapları görüntüleyin ve yönetin</p>
+      <div className="sayfa-ust">
+        <div>
+          <h1 className="sayfa-baslik">📖 Kitaplar</h1>
+          <p className="sayfa-aciklama">RafArkası'ndaki tüm kitapları görüntüleyin ve yönetin</p>
+        </div>
+      </div>
 
       {/* Bildirim Mesajı */}
       <MesajBildirim mesaj={mesaj} mesajAyarla={mesajAyarla} />
