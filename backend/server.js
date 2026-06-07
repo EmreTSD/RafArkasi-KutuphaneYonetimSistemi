@@ -17,7 +17,7 @@ const yetkilendirmeRotalar = require('./routes/yetkilendirmeRotalar');
 const kitapRotalar = require('./routes/kitapRotalar');
 const uyeRotalar = require('./routes/uyeRotalar');
 const oduncRotalar = require('./routes/oduncRotalar');
-const istatistikRotalar = require('./routes/istatistikRotalar');
+const { hataYonetici, bulunamadiYonetici } = require('./middleware/hataMiddleware');
 
 // Express uygulamasını oluştur
 const uygulama = express();
@@ -35,7 +35,7 @@ uygulama.use('/api/uyeler', uyeRotalar);
 uygulama.use('/api/odunc', oduncRotalar);
 uygulama.use('/api/istatistikler', istatistikRotalar);
 
-// ---- Kök Rota (API Sağlık Kontrolü) ----
+// ----Kök Rota(API Sağlık Kontrolü)----
 uygulama.get('/', (istek, yanit) => {
   yanit.json({
     mesaj: '📚 Raf Arkası - Kütüphane Yönetim Sistemi API',
@@ -52,22 +52,10 @@ uygulama.get('/', (istek, yanit) => {
 });
 
 // ---- 404 Hata Yönetimi ----
-uygulama.use((istek, yanit) => {
-  yanit.status(404).json({
-    basarili: false,
-    mesaj: `${istek.originalUrl} bulunamadı.`
-  });
-});
+uygulama.use(bulunamadiYonetici);
 
 // ---- Genel Hata Yönetimi ----
-uygulama.use((hata, istek, yanit, sonraki) => {
-  console.error('Sunucu hatası:', hata.stack);
-  yanit.status(500).json({
-    basarili: false,
-    mesaj: 'Sunucu hatası oluştu.',
-    hata: process.env.NODE_ENV === 'development' ? hata.message : undefined
-  });
-});
+uygulama.use(hataYonetici);
 
 // ---- Sunucuyu Başlat ----
 const sunucuBaslat = async () => {
