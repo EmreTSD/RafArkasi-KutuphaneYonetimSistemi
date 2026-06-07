@@ -89,7 +89,7 @@ const tekKitapGetir = async (istek, yanit) => {
 // ---- Kitap Ekle ----
 const kitapEkle = async (istek, yanit) => {
   try {
-    const { baslik, yazar, isbn, kategori, yayinYili, sayfaSayisi, stokAdedi, aciklama } = istek.body;
+    const { baslik, yazar, isbn, kategori, yayinYili, sayfaSayisi, stokAdedi, yayinevi, aciklama } = istek.body;
 
     if (!baslik || !yazar || !isbn || !yayinYili || !sayfaSayisi) {
       return yanit.status(400).json({
@@ -107,6 +107,7 @@ const kitapEkle = async (istek, yanit) => {
       sayfaSayisi: sayfaSayisi === '' ? null : sayfaSayisi,
       stokAdedi: stokAdedi || 1,
       mevcutAdet: stokAdedi || 1,
+      yayinevi: yayinevi === '' ? null : yayinevi,
       aciklama: aciklama === '' ? null : aciklama
     });
 
@@ -139,7 +140,7 @@ const kitapGuncelle = async (istek, yanit) => {
 
     // İstek gövdesindeki boş string değerlerini veritabanı kısıtlamaları için null yapalım
     const guncellenecekVeriler = { ...istek.body };
-    const bosOlabilecekAlanlar = ['isbn', 'yayinYili', 'sayfaSayisi', 'aciklama'];
+    const bosOlabilecekAlanlar = ['isbn', 'yayinYili', 'sayfaSayisi', 'yayinevi', 'aciklama'];
 
     bosOlabilecekAlanlar.forEach(function (alan) {
       if (guncellenecekVeriler[alan] === '') {
