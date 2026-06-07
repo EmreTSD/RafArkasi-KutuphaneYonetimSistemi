@@ -17,7 +17,9 @@ const yetkilendirmeRotalar = require('./routes/yetkilendirmeRotalar');
 const kitapRotalar = require('./routes/kitapRotalar');
 const uyeRotalar = require('./routes/uyeRotalar');
 const oduncRotalar = require('./routes/oduncRotalar');
+const istatistikRotalar = require('./routes/istatistikRotalar');
 const { hataYonetici, bulunamadiYonetici } = require('./middleware/hataMiddleware');
+
 
 // Express uygulamasını oluştur
 const uygulama = express();
