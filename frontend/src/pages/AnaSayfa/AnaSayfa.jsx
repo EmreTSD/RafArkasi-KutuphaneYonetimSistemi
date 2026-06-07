@@ -38,8 +38,8 @@ const AnaSayfa = () => {
   return (
     <div className="sayfa-kapsayici" id="anasayfa">
       <section className="anasayfa-hero">
-        <div className="hero-ikon">📚</div>
-        <h1 className="hero-baslik">RafArkası Yönetim Sistemi</h1>
+        <img src="/RafArkasıLogo.png" alt="RafArkası Logo" className="hero-logo" />
+        <h1 className="hero-baslik">Kütüphane Yönetim Sistemi</h1>
         <p className="hero-aciklama">
           Kitaplarınızı kolayca yönetin, üyelerinizi takip edin ve ödünç
           işlemlerini hızlıca gerçekleştirin. Modern ve kullanıcı dostu arayüz

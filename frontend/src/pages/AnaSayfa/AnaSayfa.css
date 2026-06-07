@@ -7,7 +7,13 @@
   padding: 80px 20px 60px;
 }
 
-.hero-ikon { font-size: 4rem; margin-bottom: 20px; display: inline-block; animation: yukariKaydir 0.8s ease; }
+.hero-logo { 
+  height: 120px; 
+  width: auto; 
+  margin-bottom: 24px; 
+  display: inline-block; 
+  animation: yukariKaydir 0.8s ease; 
+}
 
 .hero-baslik {
   font-size: 3rem; font-weight: 800; margin-bottom: 16px;
