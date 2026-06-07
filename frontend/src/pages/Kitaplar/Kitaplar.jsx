@@ -104,10 +104,7 @@ const Kitaplar = () => {
     <div className="sayfa-kapsayici" id="kitaplar-sayfa">
       <div className="sayfa-ust">
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-            <img src="/RafArkasıLogo.png" alt="Logo" style={{ height: '36px', width: 'auto' }} />
-            <h1 className="sayfa-baslik" style={{ margin: 0 }}>Kitaplar</h1>
-          </div>
+          <h1 className="sayfa-baslik">Kitaplar</h1>
           <p className="sayfa-aciklama">RafArkası'ndaki tüm kitapları görüntüleyin ve yönetin</p>
         </div>
       </div>
