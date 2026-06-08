@@ -40,8 +40,10 @@ function App() {
           <Route path="/giris" element={<GirisKontrol><GirisYap /></GirisKontrol>} />
           <Route path="/kayit" element={<GirisKontrol><KayitOl /></GirisKontrol>} />
 
+          {/* Admin ve Moderator'e Açık Rota (istatistik paneli) */}
+          <Route path="/admin" element={<KorumaliRota izinliRoller={['admin', 'moderator']}><AdminPanel /></KorumaliRota>} />
+
           {/* Yalnızca Adminlere Açık Rotalar */}
-          <Route path="/admin" element={<KorumaliRota><AdminPanel /></KorumaliRota>} />
           <Route path="/uyeler" element={<KorumaliRota><Uyeler /></KorumaliRota>} />
           <Route path="/odunc" element={<KorumaliRota><OduncIslemleri /></KorumaliRota>} />
 

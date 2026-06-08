@@ -161,7 +161,7 @@ const Dashboard = ({ ozet, sonOduncler, gecikmisList, azKalanKitaplar }) => (
 // Ana AdminPanel Bileşeni
 // ============================================
 const AdminPanel = () => {
-  const { uye, adminMi } = useYetkilendirme();
+  const { uye, adminMi, kitapYetkisi } = useYetkilendirme();
   const navigate = useNavigate();
   const [aktifSayfa, aktifSayfaAyarla] = useState('dashboard');
   const [yukleniyor, yukleniyorAyarla] = useState(true);
@@ -173,12 +173,12 @@ const AdminPanel = () => {
     azKalanKitaplar: []
   });
 
-  // Admin değilse ana sayfaya yönlendir
+  // Yetkisi yoksa (admin/moderator değilse) ana sayfaya yönlendir
   useEffect(() => {
-    if (!adminMi) {
+    if (!kitapYetkisi) {
       navigate('/', { replace: true });
     }
-  }, [adminMi, navigate]);
+  }, [kitapYetkisi, navigate]);
 
   // Verileri yükle
   useEffect(() => {
@@ -201,15 +201,18 @@ const AdminPanel = () => {
       }
     };
 
-    if (adminMi) verileriGetir();
-  }, [adminMi]);
+    if (kitapYetkisi) verileriGetir();
+  }, [kitapYetkisi]);
 
   // Sidebar menü öğeleri
+  // Üye ve ödünç yönetimi yalnızca admin'e gösterilir; moderator yalnızca kitap işlemleri yapar.
   const menuOgeleri = [
     { anahtar: 'dashboard', ikon: '📊', metin: 'Dashboard' },
     { anahtar: 'kitaplar', ikon: '📚', metin: 'Kitap Yönetimi', rota: '/kitaplar' },
-    { anahtar: 'uyeler', ikon: '👥', metin: 'Üye Yönetimi', rota: '/uyeler' },
-    { anahtar: 'odunc', ikon: '📋', metin: 'Ödünç Yönetimi', rota: '/odunc' },
+    ...(adminMi ? [
+      { anahtar: 'uyeler', ikon: '👥', metin: 'Üye Yönetimi', rota: '/uyeler' },
+      { anahtar: 'odunc', ikon: '📋', metin: 'Ödünç Yönetimi', rota: '/odunc' },
+    ] : []),
   ];
 
   const menuTikla = (oge) => {
@@ -220,7 +223,7 @@ const AdminPanel = () => {
     }
   };
 
-  if (!adminMi) return null;
+  if (!kitapYetkisi) return null;
 
   return (
     <div className="admin-duzen">
@@ -257,7 +260,7 @@ const AdminPanel = () => {
           <div className="sidebar-uye-adi">
             {uye ? `${uye.ad} ${uye.soyad}` : ''}
           </div>
-          <div>👑 Sistem Yöneticisi</div>
+          <div>{adminMi ? '👑 Sistem Yöneticisi' : '🛡️ Moderatör'}</div>
         </div>
       </aside>
 

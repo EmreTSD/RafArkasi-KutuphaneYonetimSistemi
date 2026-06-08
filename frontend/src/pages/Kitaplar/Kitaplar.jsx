@@ -18,7 +18,7 @@ const bosForm = {
 };
 
 const Kitaplar = () => {
-  const { adminMi } = useYetkilendirme();
+  const { kitapYetkisi } = useYetkilendirme();
   const [kitaplar, kitaplarAyarla] = useState([]);
   const [yukleniyor, yukleniyorAyarla] = useState(true);
   const [arama, aramaAyarla] = useState('');
@@ -133,7 +133,7 @@ const Kitaplar = () => {
           <button type="submit" className="btn btn-ikincil">Ara</button>
         </form>
 
-        {adminMi && (
+        {kitapYetkisi && (
           <button className="btn btn-birincil" onClick={() => modalAc()} id="kitap-ekle-btn">
             ➕ Yeni Kitap
           </button>
@@ -153,7 +153,7 @@ const Kitaplar = () => {
                 key={kitap.id}
                 kitap={kitap}
                 onSil={kitapSilIstek}
-                adminMi={adminMi}
+                adminMi={kitapYetkisi}
                 onDuzenle={modalAc}
                 animasyonGecikmesi={`${index * 0.05}s`}
               />

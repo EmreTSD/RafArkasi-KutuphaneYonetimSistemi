@@ -45,7 +45,7 @@ const Uye = veritabani.define('uye', {
     }
   },
   rol: {
-    type: DataTypes.ENUM('uye', 'admin'),
+    type: DataTypes.ENUM('uye', 'admin', 'moderator'),
     defaultValue: 'uye'
   },
   telefon: {

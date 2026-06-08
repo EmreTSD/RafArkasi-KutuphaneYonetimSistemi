@@ -61,4 +61,31 @@ const adminKontrol = (istek, yanit, sonraki) => {
   }
 };
 
-module.exports = { tokenDogrula, adminKontrol };
+// Moderator kontrolü middleware'i
+// Admin'den bağımsızdır; yalnızca 'moderator' rolünü kontrol eder.
+const moderatorKontrol = (istek, yanit, sonraki) => {
+  if (istek.uye && istek.uye.rol === 'moderator') {
+    sonraki();
+  } else {
+    return yanit.status(403).json({
+      basarili: false,
+      mesaj: 'Bu işlem için moderator yetkisi gereklidir.'
+    });
+  }
+};
+
+// Kitap işlemleri ve istatistikler için yetki kapısı
+// Admin her şeyi yapar; moderator yalnızca kitap işlemlerini yapar.
+// Bu yüzden bu rotalara admin VEYA moderator erişebilir.
+const adminVeyaModerator = (istek, yanit, sonraki) => {
+  if (istek.uye && (istek.uye.rol === 'admin' || istek.uye.rol === 'moderator')) {
+    sonraki();
+  } else {
+    return yanit.status(403).json({
+      basarili: false,
+      mesaj: 'Bu işlem için admin veya moderator yetkisi gereklidir.'
+    });
+  }
+};
+
+module.exports = { tokenDogrula, adminKontrol, moderatorKontrol, adminVeyaModerator };

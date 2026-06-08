@@ -71,7 +71,10 @@ export const YetkilendirmeSaglayici = ({ children }) => {
     kayitOl,
     cikisYap,
     girisYapildiMi: !!uye,
-    adminMi: uye?.rol === 'admin'
+    adminMi: uye?.rol === 'admin',
+    moderatorMu: uye?.rol === 'moderator',
+    // Kitap işlemleri ve istatistikler için yetki: admin veya moderator
+    kitapYetkisi: uye?.rol === 'admin' || uye?.rol === 'moderator'
   };
 
   return (

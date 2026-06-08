@@ -37,6 +37,17 @@ const Uyeler = () => {
     uyeleriGetir(arama);
   };
 
+  // Üyenin rolünü değiştir (üye / moderator / admin)
+  const rolDegistir = async (id, yeniRol) => {
+    try {
+      await uyeServisi.guncelle(id, { rol: yeniRol });
+      mesajAyarla({ tip: 'basari', metin: 'Üye rolü güncellendi!' });
+      uyeleriGetir(arama);
+    } catch {
+      mesajAyarla({ tip: 'hata', metin: 'Rol güncellenirken hata oluştu.' });
+    }
+  };
+
   const uyeSilIstek = (id) => {
     silmeOnayAyarla({ acik: true, id });
   };
@@ -106,9 +117,16 @@ const Uyeler = () => {
                   <td>{uye.eposta}</td>
                   <td>{uye.telefon || '-'}</td>
                   <td>
-                    <span className={`rozet ${uye.rol === 'admin' ? 'rozet-uyari' : 'rozet-bilgi'}`}>
-                      {uye.rol === 'admin' ? '👑 Admin' : '👤 Üye'}
-                    </span>
+                    <select
+                      className="form-girdi"
+                      style={{ padding: '6px 8px', minWidth: '130px' }}
+                      value={uye.rol}
+                      onChange={(e) => rolDegistir(uye.id, e.target.value)}
+                    >
+                      <option value="uye">👤 Üye</option>
+                      <option value="moderator">🛡️ Moderator</option>
+                      <option value="admin">👑 Admin</option>
+                    </select>
                   </td>
                   <td>
                     <span className={`rozet ${uye.aktifMi ? 'rozet-basari' : 'rozet-tehlike'}`}>

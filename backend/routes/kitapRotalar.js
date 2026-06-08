@@ -13,7 +13,7 @@ const {
   kitapSil,
   kategorileriGetir
 } = require('../controllers/kitapKontrol');
-const { tokenDogrula, adminKontrol } = require('../middleware/yetkilendirme');
+const { tokenDogrula, adminVeyaModerator } = require('../middleware/yetkilendirme');
 
 // GET /api/kitaplar/kategoriler - Kategori listesi (herkese açık)
 router.get('/kategoriler', kategorileriGetir);
@@ -24,13 +24,13 @@ router.get('/', tumKitaplariGetir);
 // GET /api/kitaplar/:id - Tek kitap (herkese açık)
 router.get('/:id', tekKitapGetir);
 
-// POST /api/kitaplar - Kitap ekle (sadece admin)
-router.post('/', tokenDogrula, adminKontrol, kitapEkle);
+// POST /api/kitaplar - Kitap ekle (admin veya moderator)
+router.post('/', tokenDogrula, adminVeyaModerator, kitapEkle);
 
-// PUT /api/kitaplar/:id - Kitap güncelle (sadece admin)
-router.put('/:id', tokenDogrula, adminKontrol, kitapGuncelle);
+// PUT /api/kitaplar/:id - Kitap güncelle (admin veya moderator)
+router.put('/:id', tokenDogrula, adminVeyaModerator, kitapGuncelle);
 
-// DELETE /api/kitaplar/:id - Kitap sil (sadece admin)
-router.delete('/:id', tokenDogrula, adminKontrol, kitapSil);
+// DELETE /api/kitaplar/:id - Kitap sil (admin veya moderator)
+router.delete('/:id', tokenDogrula, adminVeyaModerator, kitapSil);
 
 module.exports = router;

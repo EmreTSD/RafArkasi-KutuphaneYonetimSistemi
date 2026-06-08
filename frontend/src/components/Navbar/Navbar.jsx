@@ -9,7 +9,7 @@ import { useYetkilendirme } from '../../context/YetkilendirmeBaglami';
 import './Navbar.css';
 
 const Navbar = () => {
-  const { uye, cikisYap, girisYapildiMi, adminMi } = useYetkilendirme();
+  const { uye, cikisYap, girisYapildiMi, adminMi, kitapYetkisi } = useYetkilendirme();
   const [menuAcik, menuAcikAyarla] = useState(false);
   const yonlendir = useNavigate();
 
@@ -39,13 +39,17 @@ const Navbar = () => {
               Kitaplar
             </NavLink>
           </li>
+          {/* İstatistik paneli: admin ve moderator */}
+          {girisYapildiMi && kitapYetkisi && (
+            <li>
+              <NavLink to="/admin" className={({ isActive }) => `navbar-link ${isActive ? 'aktif' : ''}`} onClick={menuKapat} id="nav-admin">
+                {adminMi ? 'Admin Panel' : 'İstatistikler'}
+              </NavLink>
+            </li>
+          )}
+          {/* Üye ve ödünç yönetimi: yalnızca admin */}
           {girisYapildiMi && adminMi && (
             <>
-              <li>
-                <NavLink to="/admin" className={({ isActive }) => `navbar-link ${isActive ? 'aktif' : ''}`} onClick={menuKapat} id="nav-admin">
-                  Admin Panel
-                </NavLink>
-              </li>
               <li>
                 <NavLink to="/uyeler" className={({ isActive }) => `navbar-link ${isActive ? 'aktif' : ''}`} onClick={menuKapat} id="nav-uyeler">
                   Üyeler
