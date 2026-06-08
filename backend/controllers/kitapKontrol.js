@@ -22,7 +22,8 @@ const tumKitaplariGetir = async (istek, yanit) => {
       kosullar[Op.or] = [
         { baslik: { [Op.iLike]: `%${arama}%` } },
         { yazar: { [Op.iLike]: `%${arama}%` } },
-        { isbn: { [Op.iLike]: `%${arama}%` } }
+        { isbn: { [Op.iLike]: `%${arama}%` } },
+        { kategori: {[Op.iLike]: `%${arama}%` }}
       ];
     }
 

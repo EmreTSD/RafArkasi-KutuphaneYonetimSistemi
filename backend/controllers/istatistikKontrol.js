@@ -19,19 +19,11 @@ const istatistikleriGetir = async (istek, yanit) => {
     const toplamKategori = kategoriler.length;
 
     // Rafta mevcut kitap adedi (toplam stok)
-    const mevcutKitap = await Kitap.sum('mevcut_adet') || 0;
+    const mevcutKitap = await Kitap.sum('mevcutAdet') || 0;
 
     // Şu an ödünçte olan kitap sayısı
     const oduncKitap = await Odunc.count({
       where: { durum: 'odunc' }
-    });
-
-    // Toplam üye sayısı
-    const toplamUye = await Uye.count();
-
-    // Gecikmiş ödünç sayısı
-    const gecikmisSayi = await Odunc.count({
-      where: { durum: 'gecikti' }
     });
 
     yanit.json({
@@ -39,9 +31,7 @@ const istatistikleriGetir = async (istek, yanit) => {
       toplamKitap,
       toplamKategori,
       mevcutKitap,
-      oduncKitap,
-      toplamUye,
-      gecikmisSayi
+      oduncKitap
     });
   } catch (hata) {
     console.error('İstatistik hatası:', hata);
@@ -62,7 +52,7 @@ const adminIstatistikleriGetir = async (istek, yanit) => {
     const aktifOdunc = await Odunc.count({ where: { durum: 'odunc' } });
     const gecikmisSayi = await Odunc.count({ where: { durum: 'gecikti' } });
     const iadeSayi = await Odunc.count({ where: { durum: 'iade_edildi' } });
-    const mevcutKitap = await Kitap.sum('mevcut_adet') || 0;
+    const mevcutKitap = await Kitap.sum('mevcutAdet') || 0;
 
     // Son 5 ödünç işlemi
     const sonOduncler = await Odunc.findAll({
