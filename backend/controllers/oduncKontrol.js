@@ -187,28 +187,4 @@ const iadeEt = async (istek, yanit) => {
   }
 };
 
-// ---- Üyenin Ödünç Kayıtlarını Getir ----
-const uyeOduncleriniGetir = async (istek, yanit) => {
-  try {
-    const oduncler = await Odunc.findAll({
-      where: { uyeId: istek.params.uyeId },
-      include: [
-        { model: Kitap, as: 'kitap', attributes: ['id', 'baslik', 'yazar'] }
-      ],
-      order: [['created_at', 'DESC']]
-    });
-
-    yanit.json({
-      basarili: true,
-      oduncler
-    });
-  } catch (hata) {
-    console.error('Üye ödünçleri hatası:', hata);
-    yanit.status(500).json({
-      basarili: false,
-      mesaj: 'Üyenin ödünç kayıtları getirilirken bir hata oluştu.'
-    });
-  }
-};
-
-module.exports = { tumOduncleriGetir, oduncVer, iadeEt, uyeOduncleriniGetir };
+module.exports = { tumOduncleriGetir, oduncVer, iadeEt };

@@ -113,9 +113,6 @@ export const oduncServisi = {
   },
   iadeEt: function (id) {
     return api.put(`/odunc/iade/${id}`);
-  },
-  uyeOduncleri: function (uyeId) {
-    return api.get(`/odunc/uye/${uyeId}`);
   }
 };
 

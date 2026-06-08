@@ -5,7 +5,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { tumOduncleriGetir, oduncVer, iadeEt, uyeOduncleriniGetir } = require('../controllers/oduncKontrol');
+const { tumOduncleriGetir, oduncVer, iadeEt } = require('../controllers/oduncKontrol');
 const { tokenDogrula, adminKontrol } = require('../middleware/yetkilendirme');
 
 // Tüm ödünç rotaları admin yetkisi gerektirir
@@ -19,8 +19,5 @@ router.post('/', oduncVer);
 
 // PUT /api/odunc/iade/:id - İade et
 router.put('/iade/:id', iadeEt);
-
-// GET /api/odunc/uye/:uyeId - Üyenin ödünç kayıtları
-router.get('/uye/:uyeId', uyeOduncleriniGetir);
 
 module.exports = router;
