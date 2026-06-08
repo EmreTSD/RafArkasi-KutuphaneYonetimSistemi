@@ -17,35 +17,51 @@ React · Node.js · Express · PostgreSQL · JWT
 ### Öne Çıkan Özellikler
 
 - 🔍 **Kitap Yönetimi** — Ekleme, düzenleme, silme, arama ve kategori filtreleme
-- 👥 **Üye Yönetimi** — Üye kaydı, listeleme ve yönetim paneli
+- 👥 **Üye Yönetimi** — Üye kaydı, listeleme, rol atama ve yönetim paneli
 - 🔄 **Ödünç İşlemleri** — Kitap ödünç verme ve iade takibi
-- 🔐 **Güvenli Erişim** — JWT tabanlı kimlik doğrulama ve rol bazlı yetkilendirme
-- 📊 **İstatistikler** — Anlık kitap, kategori ve ödünç durum bilgileri
+- 🔐 **Güvenli Erişim** — JWT tabanlı kimlik doğrulama ve **3 seviyeli rol bazlı yetkilendirme** (admin / moderator / üye)
+- 📊 **İstatistikler** — Anlık kitap, kategori ve ödünç durum bilgileri + yönetim paneli
 - 🌙 **Koyu Tema** — Göz yormayan şık ve modern arayüz
 - 📱 **Responsive Tasarım** — Mobil, tablet ve masaüstü uyumlu
+
+---
+
+## 🔐 Roller ve Yetkiler
+
+Sistemde üç kullanıcı rolü bulunur. Yetkiler hem backend middleware'i hem de frontend rotalarıyla iki katmanlı olarak korunur.
+
+| Yetki | 👑 Admin | 🛡️ Moderator | 👤 Üye |
+|-------|:-------:|:-----------:|:------:|
+| Kitapları görüntüleme / arama | ✅ | ✅ | ✅ |
+| Kitap ekleme / güncelleme / silme | ✅ | ✅ | ❌ |
+| İstatistik panelini görüntüleme | ✅ | ✅ | ❌ |
+| Üye yönetimi (listeleme / rol / silme) | ✅ | ❌ | ❌ |
+| Ödünç verme / iade işlemleri | ✅ | ❌ | ❌ |
+
+> **Özetle:** Admin her şeyi yapar. **Moderator yalnızca kitap işlemleri yapar ve istatistikleri görür** — üye ve ödünç yönetimine erişemez. Üye ise yalnızca kitapları görüntüleyebilir.
 
 ---
 
 ## 🚀 Teknolojiler
 
 ### Frontend
-| Teknoloji | Sürüm | Açıklama |
-|-----------|-------|----------|
-| [React](https://react.dev/) | 19.x | Kullanıcı arayüzü |
-| [Vite](https://vite.dev/) | 8.x | Geliştirme sunucusu ve paketleyici |
-| [React Router](https://reactrouter.com/) | 7.x | Sayfa yönlendirme |
-| [Axios](https://axios-http.com/) | 1.x | HTTP istemcisi |
-| Klasik CSS | — | Özel tasarım (framework yok) |
+| Teknoloji | Açıklama |
+|-----------|----------|
+| [React](https://react.dev/) | Kullanıcı arayüzü |
+| [Vite](https://vite.dev/) | Geliştirme sunucusu ve paketleyici |
+| [React Router](https://reactrouter.com/) | Sayfa yönlendirme |
+| [Axios](https://axios-http.com/) | HTTP istemcisi |
+| Klasik CSS | Özel tasarım (framework yok) |
 
 ### Backend
-| Teknoloji | Sürüm | Açıklama |
-|-----------|-------|----------|
-| [Node.js](https://nodejs.org/) | 18+ | Sunucu ortamı |
-| [Express.js](https://expressjs.com/) | 5.x | Web çatısı |
-| [PostgreSQL](https://www.postgresql.org/) | 14+ | Veritabanı |
-| [Sequelize](https://sequelize.org/) | 6.x | ORM |
-| [JWT](https://jwt.io/) | — | Token tabanlı auth |
-| [bcryptjs](https://www.npmjs.com/package/bcryptjs) | 3.x | Şifre hashleme |
+| Teknoloji | Açıklama |
+|-----------|----------|
+| [Node.js](https://nodejs.org/) | Sunucu ortamı |
+| [Express.js](https://expressjs.com/) | Web çatısı |
+| [PostgreSQL](https://www.postgresql.org/) | Veritabanı |
+| [Sequelize](https://sequelize.org/) | ORM |
+| [JWT](https://jwt.io/) | Token tabanlı kimlik doğrulama |
+| [bcryptjs](https://www.npmjs.com/package/bcryptjs) | Şifre hashleme |
 
 ---
 
@@ -54,34 +70,36 @@ React · Node.js · Express · PostgreSQL · JWT
 ```
 📦 WebDönem2Projesi/
 ├── 📂 backend/
-│   ├── config/              → Veritabanı yapılandırması
-│   ├── controllers/         → İş mantığı katmanı
-│   ├── middleware/           → JWT doğrulama, admin kontrolü
-│   ├── models/              → Sequelize veri modelleri
-│   ├── routes/              → API rota tanımları
-│   ├── server.js            → Express sunucu giriş noktası
+│   ├── config/                    → Veritabanı yapılandırması (Sequelize/PostgreSQL)
+│   ├── controllers/               → İş mantığı (kitap, üye, ödünç, istatistik, yetkilendirme)
+│   ├── middleware/                → JWT doğrulama, rol kontrolü, hata yönetimi
+│   ├── models/                    → Sequelize modelleri (Uye, Kitap, Odunc)
+│   ├── routes/                    → API rota tanımları
+│   ├── kayitlari_kontrol_et.js    → Tohum (seed) verisi: 30 kitap, 17 kullanıcı, 5 ödünç
+│   ├── sifirla.js                 → Veritabanını sıfırlama betiği
+│   ├── server.js                  → Express sunucu giriş noktası
 │   └── package.json
 │
 ├── 📂 frontend/
 │   ├── src/
-│   │   ├── context/         → Auth Context (durum yönetimi)
-│   │   ├── components/      → Navbar, Footer
-│   │   ├── pages/           → AnaSayfa, Kitaplar, Uyeler, Ödünç, Giriş, Kayıt
-│   │   ├── services/        → API istemci servisleri
-│   │   ├── data/            → Görseller ve statik veriler
-│   │   ├── App.jsx          → Router ve korumalı rotalar
-│   │   ├── main.jsx         → React giriş noktası
-│   │   └── index.css        → Global stiller (koyu tema)
+│   │   ├── context/               → YetkilendirmeBaglami (Auth Context)
+│   │   ├── components/            → Navbar, Footer, KitapKart, KorumaliRota,
+│   │   │                            Sayfalama, MesajBildirim, YuklemeSpinner, BosDurum
+│   │   ├── pages/                 → AnaSayfa, Kitaplar, Uyeler, OduncIslemleri,
+│   │   │                            AdminPanel, GirisYap, KayitOl
+│   │   ├── services/              → api.js (Axios servis katmanı)
+│   │   ├── assets/                → Görseller ve statik dosyalar
+│   │   ├── App.jsx                → Router ve korumalı rotalar
+│   │   ├── main.jsx               → React giriş noktası
+│   │   └── index.css              → Global stiller (koyu tema)
 │   ├── index.html
 │   ├── vite.config.js
 │   └── package.json
 │
 ├── 📂 dokumanlar/
-│   └── UML_Diyagramlari.md  → Projenin UML (Use-Case, Activity, ER, Component) diyagramları
+│   └── UML_Diyagramlari.md        → UML (Use-Case, Activity, ER, Component) diyagramları
 ├── .gitignore
-├── genel.md                 → Proje genel bakış dokümanı
-├── postgresqpl.txt          → PostgreSQL açıklama raporu
-└── README.md                → Bu dosya
+└── README.md                      → Bu dosya
 ```
 
 ---
@@ -103,75 +121,109 @@ Projenin altyapısını ve iş akışlarını daha iyi anlamak için hazırlanan
 ### Gereksinimler
 
 - **Node.js** v18 veya üzeri
-- **PostgreSQL** v14 veya üzeri
+- **PostgreSQL** v14 veya üzeri (yerel ya da Supabase/Neon gibi bulut veritabanı)
 - **npm** paket yöneticisi
 
 ### 1️⃣ Repoyu Klonla
 
 ```bash
-git clone https://github.com/emrep/WebDonem2Projesi.git
-cd WebDonem2Projesi
+git clone https://github.com/EmreTSD/RafArkasi-KutuphaneYonetimSistemi.git
+cd RafArkasi-KutuphaneYonetimSistemi
 ```
 
-### 2️⃣ Veritabanını Oluştur
-
-```sql
-CREATE DATABASE kutuphane_db;
-```
-
-### 3️⃣ Backend Kurulumu
+### 2️⃣ Backend Kurulumu
 
 ```bash
 cd backend
 npm install
 ```
 
-`backend/.env` dosyasını düzenleyin:
+`backend/.env` dosyasını oluşturun. İki yöntemden birini kullanabilirsiniz:
+
+**A) Bulut veritabanı (Supabase/Neon) — tek satır bağlantı (önerilen):**
 
 ```env
-# Sunucu Portu
 PORT=5000
+NODE_ENV=development
 
-# PostgreSQL Veritabanı Ayarları
+DATABASE_URL="postgresql://kullanici:sifre@host:5432/veritabani"
+VT_SSL=true
+
+JWT_GIZLI_ANAHTAR=gizli-anahtar-degistirin
+JWT_SURE=7d
+```
+
+**B) Yerel PostgreSQL — ayrı alanlar:**
+
+```env
+PORT=5000
+NODE_ENV=development
+
 VT_HOST=localhost
 VT_PORT=5432
 VT_AD=kutuphane_db
 VT_KULLANICI=postgres
 VT_SIFRE=sifrenizi_buraya_yazin
+VT_SSL=false
 
-# JWT Ayarları
 JWT_GIZLI_ANAHTAR=gizli-anahtar-degistirin
-JWT_SURE=24h
-
-# Uygulama Ortamı
-NODE_ENV=development
+JWT_SURE=7d
 ```
 
-### 4️⃣ Frontend Kurulumu
+> Tablolar sunucu ilk açılışta otomatik oluşturulur (`sequelize.sync`). Yerel kullanımda önce veritabanını oluşturmanız gerekir: `CREATE DATABASE kutuphane_db;`
+
+### 3️⃣ Frontend Kurulumu
 
 ```bash
 cd frontend
 npm install
 ```
 
-### 5️⃣ Uygulamayı Başlat
+### 4️⃣ Uygulamayı Başlat
 
 ```bash
 # Terminal 1 — Backend
 cd backend
-npm run gelistirme
+npm run dev
 
 # Terminal 2 — Frontend
 cd frontend
 npm run dev
 ```
 
-### 6️⃣ Tarayıcıda Aç
+### 5️⃣ Tarayıcıda Aç
 
 | Servis | Adres |
 |--------|-------|
 | **Frontend** | http://localhost:3000 |
 | **Backend API** | http://localhost:5000 |
+
+---
+
+## 🌱 Örnek Veri (Seed) ve Sıfırlama
+
+Hızlı başlangıç için hazır tohum verisi (30 kitap, 17 kullanıcı, 5 ödünç kaydı) yükleyebilirsiniz.
+
+```bash
+cd backend
+
+# Veritabanını tamamen sıfırla (tüm tabloları siler ve yeniden oluşturur)
+npm run sifirla
+
+# Örnek verileri yükle (yalnızca veritabanı boşken çalışır)
+node kayitlari_kontrol_et.js
+```
+
+Seed sonrası hazır gelen örnek hesaplar:
+
+| Rol | E-posta | Şifre |
+|-----|---------|-------|
+| 👑 Admin | `admin@rafarkasi.com` | `Admin1234!` |
+| 🛡️ Moderator | `moderator1@rafarkasi.com` | `Moderator1234!` |
+| 🛡️ Moderator | `moderator2@rafarkasi.com` | `Moderator1234!` |
+| 👤 Üye | `ayse.kaya@example.com` | `Uye12345!` |
+
+> Bir üyeyi moderator/admin yapmak için Admin hesabıyla **Üyeler** sayfasındaki rol açılır menüsünü kullanabilirsiniz.
 
 ---
 
@@ -183,7 +235,7 @@ npm run dev
 |-------|----------|----------|-------|
 | `POST` | `/api/yetkilendirme/kayit` | Yeni üye kaydı | 🌐 Herkese açık |
 | `POST` | `/api/yetkilendirme/giris` | Üye girişi | 🌐 Herkese açık |
-| `GET` | `/api/yetkilendirme/profil` | Profil bilgisi | 🔒 Üye |
+| `GET` | `/api/yetkilendirme/profil` | Profil bilgisi | 🔒 Giriş yapan |
 
 ### Kitaplar
 
@@ -191,41 +243,35 @@ npm run dev
 |-------|----------|----------|-------|
 | `GET` | `/api/kitaplar` | Kitap listesi (arama + sayfalama) | 🌐 Herkese açık |
 | `GET` | `/api/kitaplar/kategoriler` | Kategori listesi | 🌐 Herkese açık |
-| `POST` | `/api/kitaplar` | Kitap ekle | 🔑 Admin |
-| `PUT` | `/api/kitaplar/:id` | Kitap güncelle | 🔑 Admin |
-| `DELETE` | `/api/kitaplar/:id` | Kitap sil | 🔑 Admin |
+| `GET` | `/api/kitaplar/:id` | Tek kitap detayı | 🌐 Herkese açık |
+| `POST` | `/api/kitaplar` | Kitap ekle | 👑 Admin · 🛡️ Moderator |
+| `PUT` | `/api/kitaplar/:id` | Kitap güncelle | 👑 Admin · 🛡️ Moderator |
+| `DELETE` | `/api/kitaplar/:id` | Kitap sil | 👑 Admin · 🛡️ Moderator |
 
 ### Üyeler
 
 | Metod | Endpoint | Açıklama | Yetki |
 |-------|----------|----------|-------|
-| `GET` | `/api/uyeler` | Üye listesi | 🔑 Admin |
-| `DELETE` | `/api/uyeler/:id` | Üye sil | 🔑 Admin |
+| `GET` | `/api/uyeler` | Üye listesi | 👑 Admin |
+| `GET` | `/api/uyeler/:id` | Tek üye detayı | 👑 Admin |
+| `PUT` | `/api/uyeler/:id` | Üye güncelle (rol değiştirme dahil) | 👑 Admin |
+| `DELETE` | `/api/uyeler/:id` | Üye sil | 👑 Admin |
 
 ### Ödünç İşlemleri
 
 | Metod | Endpoint | Açıklama | Yetki |
 |-------|----------|----------|-------|
-| `GET` | `/api/odunc` | Ödünç listesi | 🔑 Admin |
-| `POST` | `/api/odunc` | Ödünç ver | 🔑 Admin |
-| `PUT` | `/api/odunc/iade/:id` | İade et | 🔑 Admin |
+| `GET` | `/api/odunc` | Ödünç listesi | 👑 Admin |
+| `POST` | `/api/odunc` | Ödünç ver | 👑 Admin |
+| `PUT` | `/api/odunc/iade/:id` | İade et | 👑 Admin |
+| `GET` | `/api/odunc/uye/:uyeId` | Üyenin ödünç kayıtları | 👑 Admin |
 
 ### İstatistikler
 
 | Metod | Endpoint | Açıklama | Yetki |
 |-------|----------|----------|-------|
 | `GET` | `/api/istatistikler` | Genel istatistikler | 🌐 Herkese açık |
-
----
-
-## 👤 İlk Admin Hesabı Oluşturma
-
-1. `/api/yetkilendirme/kayit` endpoint'i ile bir hesap oluşturun
-2. PostgreSQL'de rolü admin olarak güncelleyin:
-
-```sql
-UPDATE uye SET rol = 'admin' WHERE eposta = 'admin@kutuphane.com';
-```
+| `GET` | `/api/istatistikler/admin` | Yönetim paneli detaylı istatistikler | 👑 Admin · 🛡️ Moderator |
 
 ---
 
@@ -247,9 +293,10 @@ UPDATE uye SET rol = 'admin' WHERE eposta = 'admin@kutuphane.com';
 
 | Sayfa | Yol | Açıklama | Erişim |
 |-------|-----|----------|--------|
-| Ana Sayfa | `/` | Karşılama + istatistikler | Herkese açık |
-| Kitaplar | `/kitaplar` | Kitap listesi + CRUD | Görüntüleme herkese; CRUD admin |
-| Üyeler | `/uyeler` | Üye tablosu | Sadece admin |
+| Ana Sayfa | `/` | Karşılama + genel istatistikler | Herkese açık |
+| Kitaplar | `/kitaplar` | Kitap listesi + CRUD | Görüntüleme herkese; CRUD admin & moderator |
+| Yönetim Paneli | `/admin` | Dashboard ve istatistikler | Admin & moderator |
+| Üyeler | `/uyeler` | Üye tablosu + rol yönetimi | Sadece admin |
 | Ödünç İşlemleri | `/odunc` | Ödünç ver / iade et | Sadece admin |
 | Giriş Yap | `/giris` | Üye giriş formu | Giriş yapmamışlar |
 | Kayıt Ol | `/kayit` | Yeni üye kayıt formu | Giriş yapmamışlar |
