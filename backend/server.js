@@ -65,12 +65,6 @@ const sunucuBaslat = async () => {
     // Veritabanı bağlantısını test et
     await veritabaniBaglantiTesti();
 
-    // 'moderator' rolünü ENUM'a ekle (Sequelize alter:true mevcut ENUM'a yeni değer eklemez).
-    // Tip henüz yoksa (ilk kurulum) hata yok sayılır; sync zaten doğru ENUM ile oluşturur.
-    await veritabani
-      .query("ALTER TYPE \"enum_uye_rol\" ADD VALUE IF NOT EXISTS 'moderator'")
-      .catch(() => {});
-
     // Tabloları otomatik oluştur/güncelle (yeni alanları veritabanına ekler)
     await veritabani.sync({ alter: true });
     console.log('✅ Veritabanı tabloları senkronize edildi!');
