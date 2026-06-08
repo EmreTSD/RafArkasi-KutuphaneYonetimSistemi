@@ -86,22 +86,14 @@ const uyeGuncelle = async (istek, yanit) => {
       });
     }
 
-    // Şifre güncellenmesini engelle (ayrı bir endpoint olmalı)
-    const { sifre, ...guncellenecekVeriler } = istek.body;
+    const { rol } = istek.body;
 
-    await uye.update(guncellenecekVeriler);
+    await uye.update({ rol });
 
     yanit.json({
       basarili: true,
-      mesaj: 'Üye bilgileri güncellendi!',
-      uye: {
-        id: uye.id,
-        ad: uye.ad,
-        soyad: uye.soyad,
-        eposta: uye.eposta,
-        rol: uye.rol,
-        telefon: uye.telefon
-      }
+      mesaj: 'Üye rolü güncellendi!',
+      uye: { id: uye.id, ad: uye.ad, soyad: uye.soyad, rol: uye.rol }
     });
   } catch (hata) {
     console.error('Üye güncelleme hatası:', hata);
