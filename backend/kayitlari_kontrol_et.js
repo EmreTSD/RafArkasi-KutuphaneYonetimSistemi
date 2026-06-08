@@ -1,6 +1,6 @@
 // ============================================
 // Veritabanı Kontrol ve Tohum Verisi Ekleme
-// 30 Kitap, 15 Kullanıcı (1 Admin + 14 Üye), 5 Ödünç Kaydı
+// 30 Kitap, 17 Kullanıcı (1 Admin + 2 Moderator + 14 Üye), 5 Ödünç Kaydı
 // Çalıştırma: node kayitlari_kontrol_et.js
 // ============================================
 
@@ -41,7 +41,7 @@ const ornekKitaplar = [
   { baslik: 'Çocukluğum', yazar: 'Maksim Gorki', isbn: '9789750718700', kategori: 'Klasik', yayinYili: 1913, sayfaSayisi: 288, stokAdedi: 3, yayinevi: 'Can Yayınları', aciklama: 'Gorki\'nin kendi çocukluk yıllarının otobiyografik anlatımı.' }
 ];
 
-// ---- Test Üyeleri (14 üye + 1 admin = 15) ----
+// ---- Test Üyeleri (14 üye + 2 moderator + 1 admin = 17) ----
 const ornekUyeler = [
   { ad: 'Sistem', soyad: 'Yöneticisi', eposta: 'admin@rafarkasi.com', sifre: 'Admin1234!', rol: 'admin', telefon: '05555555555' },
   { ad: 'Ayşe', soyad: 'Kaya', eposta: 'ayse.kaya@example.com', sifre: 'Uye12345!', rol: 'uye', telefon: '05301112233' },
@@ -57,7 +57,9 @@ const ornekUyeler = [
   { ad: 'Neslihan', soyad: 'Güneş', eposta: 'neslihan.gunes@example.com', sifre: 'Uye12345!', rol: 'uye', telefon: '05531112233' },
   { ad: 'Tarık', soyad: 'Doğan', eposta: 'tarik.dogan@example.com', sifre: 'Uye12345!', rol: 'uye', telefon: '05532223344' },
   { ad: 'Gizem', soyad: 'Yılmaz', eposta: 'gizem.yilmaz@example.com', sifre: 'Uye12345!', rol: 'uye', telefon: '05423334455' },
-  { ad: 'Volkan', soyad: 'Şimşek', eposta: 'volkan.simsek@example.com', sifre: 'Uye12345!', rol: 'uye', telefon: '05314445566' }
+  { ad: 'Volkan', soyad: 'Şimşek', eposta: 'volkan.simsek@example.com', sifre: 'Uye12345!', rol: 'uye', telefon: '05314445566' },
+  { ad: 'Moderatör', soyad: 'Bir', eposta: 'moderator1@rafarkasi.com', sifre: 'Moderator1234!', rol: 'moderator', telefon: '05551110001' },
+  { ad: 'Moderatör', soyad: 'İki', eposta: 'moderator2@rafarkasi.com', sifre: 'Moderator1234!', rol: 'moderator', telefon: '05551110002' }
 ];
 
 const kontrolEtVeEkle = async () => {
@@ -75,7 +77,7 @@ const kontrolEtVeEkle = async () => {
     console.log('------------------------------\n');
 
     if (uyeSayisi === 0 && kitapSayisi === 0 && oduncSayisi === 0) {
-      console.log('ℹ️ Veritabanı boş. 15 üye, 30 kitap ve 5 ödünç kaydı ekleniyor...\n');
+      console.log('ℹ️ Veritabanı boş. 17 üye, 30 kitap ve 5 ödünç kaydı ekleniyor...\n');
 
       // 1. Üyeleri Ekle (toplu)
       const olusturulanUyeler = [];
@@ -144,8 +146,9 @@ const kontrolEtVeEkle = async () => {
       console.log(`🔄 Ödünç Sayısı: ${oduncSayisi}`);
       console.log('------------------------------');
       console.log('\n🔑 GİRİŞ BİLGİLERİ:');
-      console.log('  Admin  → admin@rafarkasi.com / Admin1234!');
-      console.log('  Üye    → ayse.kaya@example.com / Uye12345!\n');
+      console.log('  Admin     → admin@rafarkasi.com / Admin1234!');
+      console.log('  Moderator → moderator1@rafarkasi.com / Moderator1234!');
+      console.log('  Üye       → ayse.kaya@example.com / Uye12345!\n');
 
     } else {
       console.log('ℹ️ Veritabanında zaten kayıt var. Mevcut kayıtları bozmamak için ekleme yapılmadı.');
