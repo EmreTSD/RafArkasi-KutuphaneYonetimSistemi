@@ -26,9 +26,11 @@ const tumUyeleriGetir = async (istek, yanit) => {
 
     const ofset = (parseInt(sayfa) - 1) * parseInt(limit);
 
-    const { count: toplam, rows: uyeler } = await Uye.findAndCountAll({
+    const toplam = await Uye.count({ where: kosullar });
+
+    const uyeler = await Uye.findAll({
       where: kosullar,
-      attributes: { exclude: ['sifre'] }, // Şifreyi gönderme
+      attributes: { exclude: ['sifre'] },
       limit: parseInt(limit),
       offset: ofset,
       order: [['created_at', 'DESC']]

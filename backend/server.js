@@ -18,7 +18,7 @@ const kitapRotalar = require('./routes/kitapRotalar');
 const uyeRotalar = require('./routes/uyeRotalar');
 const oduncRotalar = require('./routes/oduncRotalar');
 const istatistikRotalar = require('./routes/istatistikRotalar');
-const { hataYonetici, bulunamadiYonetici } = require('./middleware/hataMiddleware');
+const { bulunamadiYonetici } = require('./middleware/hataMiddleware');
 
 
 // Express uygulamasını oluştur
@@ -55,9 +55,6 @@ uygulama.get('/', (istek, yanit) => {
 
 // ---- 404 Hata Yönetimi ----
 uygulama.use(bulunamadiYonetici);
-
-// ---- Genel Hata Yönetimi ----
-uygulama.use(hataYonetici);
 
 // ---- Sunucuyu Başlat ----
 const sunucuBaslat = async () => {
